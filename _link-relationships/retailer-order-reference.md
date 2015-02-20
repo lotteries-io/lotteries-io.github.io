@@ -1,0 +1,7 @@
+---
+layout: page
+title: Retailer Order Reference Link Relationship
+----
+# Retailer Order Reference Link Relationship
+
+Link to a resource describing or identifying an [Order](../concepts/order) at the originating [Retailer](../concepts/retailer).
