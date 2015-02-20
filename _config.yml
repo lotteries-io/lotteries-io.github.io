@@ -1,0 +1,13 @@
+# Site settings
+title: lotteries.io
+email: your-email@domain.com
+description: building a generic api for lottery operations
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://lotteries-io.github.io" # the base hostname & protocol for your site
+github_username:  lotteries-io
+
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
