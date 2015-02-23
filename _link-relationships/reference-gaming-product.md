@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Reference Gaming Product Link Relationship
+title: Reference Gaming Product
 ---
 # Reference Gaming Product Link Relationship
 

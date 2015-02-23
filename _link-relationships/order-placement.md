@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Order Placement Link Relationship
+title: Order Placement
 ---
 # Order Placement Link Relationship
 Defines a link to a resource where a document describing an [order](../concepts/order) that is compatible with the operator's application [gaming product](../concepts/gaming-product) profiles can be POSTed.

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Original Retailer Order Link Relationship
+title: Original Retailer Order
 ---
 # Original Retailer Order Link Relationship
 

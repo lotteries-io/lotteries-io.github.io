@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Reference Draw Link Relationship
+title: Reference Draw
 ---
 
 # Reference Draw Link Relationship

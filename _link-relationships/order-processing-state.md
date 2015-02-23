@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Order Processing State Link Relationship
+title: Order Processing State
 ---
 # Order Processing State Link Relationship
 

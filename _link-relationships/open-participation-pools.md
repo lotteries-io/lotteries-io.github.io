@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Open Participation Pools Link Relationship
+title: Open Participation Pools
 ---
 # Open Participation Pools Link Relationship
 

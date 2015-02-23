@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Current Winning Scheme Link Relationship
+title: Current Winning Scheme
 ---
 
 # Current Winning Scheme Link Relationship

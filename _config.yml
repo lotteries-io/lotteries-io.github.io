@@ -3,17 +3,26 @@ title: lotteries.io
 email: your-email@domain.com
 description: building a generic api for lottery operations
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://lotteries-io.github.io" # the base hostname & protocol for your site
+url: "http://www.lotteries.io" # the base hostname & protocol for your site
 github_username:  lotteries-io
 permalink: /:title
 
 # collections
 collections:
   link-relationships:
+    permalink: /link-relationships/:name
     output: true
   gaming-products:
+    permalink: /gaming-products/:name
     output: true
   application-profiles:
+    permalink: /application-profiles/:name
+    output: true
+  concepts:
+    permalink: /concepts/:name
+    output: true
+  properties:
+    permalink: /propeties/:name
     output: true
 
 # Build settings

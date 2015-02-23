@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Retailer Link Relationship
+title: Retailer
 ---
 # Retailer Link Relationship
 

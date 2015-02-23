@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Betting Scheme Link Relationship
+title: Betting Scheme
 ---
 # Betting Scheme Link Relationship
 

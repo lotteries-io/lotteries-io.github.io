@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Retail Customer Link Relationship
+title: Retail Customer
 ---
 # Retail Customer Link Relationship
 

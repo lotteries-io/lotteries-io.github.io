@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+header: true
 ---
 
 # Genericising lottery operations

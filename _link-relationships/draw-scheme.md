@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Draw Scheme Link Relationship
+title: Draw Scheme
 ---
 # Draw Scheme Link Relationship
 

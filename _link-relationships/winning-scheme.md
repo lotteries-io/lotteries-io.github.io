@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Winning Scheme Link Relationship
+title: Winning Scheme
 ---
 # Winning Scheme Link Relationship
 

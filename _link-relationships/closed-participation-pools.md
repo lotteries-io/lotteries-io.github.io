@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Closed Participation Pools Link Relationship
+title: Closed Participation Pools
 ---
 # Closed Participation Pools Link Relationship
 
