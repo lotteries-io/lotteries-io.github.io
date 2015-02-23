@@ -5,6 +5,7 @@ description: building a generic api for lottery operations
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://lotteries-io.github.io" # the base hostname & protocol for your site
 github_username:  lotteries-io
+permalink: /:title
 
 # collections
 collections:
