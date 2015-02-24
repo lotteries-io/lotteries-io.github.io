@@ -1,3 +1,7 @@
+---
+layout: page
+title: Draw
+---
 #Draw
 
 A Draw is a random event that is organised by a [Draw organiser](draw-organiser) according to a given [Draw Schedule](draw-schedule) and hence at a given "point" in time. The event is structured according to a [Draw Scheme](draw-scheme) upon which [Bets](bets) may be placed according to one or more [Gaming Products](gaming-products).
