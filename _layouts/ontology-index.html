@@ -14,7 +14,7 @@
 	<ul>
 	{% for doc in site.collections.[page.collection].docs %}
 	    <li>
-	      <a href="{{ doc.url | remove: '.html' }}">{{ doc.title }}</a>
+	      <a href="{{ doc.url }}">{{ doc.title }}</a>
 	    </li>
 	{% endfor %}
 	</ul>

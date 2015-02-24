@@ -1,7 +1,7 @@
 ---
 layout: ontology-index
 title: Properties
-collection: concepts
+collection: properties
 ---
 # Properties
 

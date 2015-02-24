@@ -10,19 +10,14 @@ permalink: /:title
 # collections
 collections:
   link-relationships:
-    permalink: /link-relationships/:name
     output: true
   gaming-products:
-    permalink: /gaming-products/:name
     output: true
   application-profiles:
-    permalink: /application-profiles/:name
     output: true
   concepts:
-    permalink: /concepts/:name
     output: true
   properties:
-    permalink: /propeties/:name
     output: true
 
 # Build settings
