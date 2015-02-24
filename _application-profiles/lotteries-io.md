@@ -30,7 +30,7 @@ The metadata block contains information about the origin of the order. The follo
 Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links, and so we use the HAL-JSON conventions. The following links are expected:
 * [retailer](../link-relationships/retailer), the URI that is agreed to represent the retailer. Normally allocated by the operator.
 * [retail-customer](../link-relationships/retail-customer), the URI that represents the [Retail Customer](../concepts/retail-customer).
-* [retailer-reference](../link-relationships/retailer-reference), the URI that represents the [Order](../concepts/order) at the retailer. Used for correlation purposes.
+* [retailer-reference](../link-relationships/retailer-order-reference), the URI that represents the [Order](../concepts/order) at the retailer. Used for correlation purposes.
 
 If no resolvable HTTP(s) URLs are available, then URNs should be used, the custom naming scheme to be agreed between the parties.
 
@@ -53,7 +53,7 @@ For example:
 			"lo:retail-customer":{
 				"href":"http://www.retailer.com/customers/47890"
 			},
-			"lo:retailer-reference": {
+			"lo:retailer-order-reference": {
 				"href": "http://www.retailer.com/orders/1234"
 			}
 			
