@@ -1,3 +1,8 @@
+---
+layout: page
+title: Betting Scheme
+---
+
 #Betting Scheme
 
 A betting scheme is defined by an [Operator](operator) offering [Bets](bet) on the outcome of a [Draw](draw).
