@@ -1,4 +1,8 @@
-## Order
+---
+layout: page
+title: Order
+---
+# Order
 
 The [Retail Customer](retail-customer) order (commonly also known as a "ticket") encompasses a map of [Gaming Product Orders](gaming-product-order) that are submitted by a [Retailer](retailer) on behalf of a [Retail Customer](retail-customer) to an [Operator](operator). The individual [Gaming Product Orders](gaming-product-orders) are organised as a map.
 
