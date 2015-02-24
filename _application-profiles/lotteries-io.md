@@ -15,13 +15,13 @@ The first use case is for a [Retailer](../concepts/retailer) to place an [Order]
 
 [Orders](../concepts/order) may be placed at a resource discovered by navigating the [order-placement](../link-relationships/order-placement) link from the starting resource.
 
-The [Gaming Products](../concepts/gaming-products) on offer are discovered by following [available-gaming-product](../link-relationships/available-gaming-product) links. These resources also contain descriptions of the currently valid [Betting Scheme](../concepts/betting-scheme) and [Participation Pool Specification Scheme](../concepts/participation-pool-specification-scheme) for the product.
+The [Gaming Products](../concepts/gaming-product) on offer are discovered by following [available-gaming-product](../link-relationships/available-gaming-product) links. These resources also contain descriptions of the currently valid [Betting Scheme](../concepts/betting-scheme) and [Participation Pool Specification Scheme](../concepts/participation-pool-specification-scheme) for the product.
 
 ## The Order Document
 
 The [Order](../concepts/order) is formulated in a JSON document that is an object with at least two fields:
 * [metadata](../properties/metadata)
-* [gaming-product-orders](../properties/gaming-product-orders)
+* [gaming-product-orders](../properties/gaming-product-order)
 
 ### Metadata Block
 
@@ -35,7 +35,7 @@ Informed by the Semantic Web, and Linked Data, the majority of metadata can be g
 If no resolvable HTTP(s) URLs are available, then URNs should be used, the custom naming scheme to be agreed between the parties.
 
 Additional, provide:
-* [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concept/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
+* [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 For example:
 ```JSON
