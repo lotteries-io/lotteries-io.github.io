@@ -1,3 +1,8 @@
+---
+layout: page
+title: Retailer
+---
+
 #Retailer
 
 A named and identifiable organisation which organises [Retail customer](retail-customer) relationships and which functions as a retail channel for one or more [Operators](operator).
