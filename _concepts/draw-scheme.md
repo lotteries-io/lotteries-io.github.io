@@ -1,3 +1,8 @@
+---
+layout: page
+title: Draw Scheme
+---
+
 #Draw Scheme
 
 Formal description of how the way in which a [Draw](draw) outcome is structured.
