@@ -79,7 +79,7 @@ For example:
 {
    "gaming-products-orders":{
 		"curies": [{
-				"name": op",
+				"name": "op",
 				"href": "http://www.operator.com/gaming-products/{rel}",
 				"templated": true
 			}],
