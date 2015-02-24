@@ -1,3 +1,8 @@
+---
+layout: page
+title: Gaming Product Order
+---
+
 #Gaming Product Order
 
 Specifies which [Bets](bet) a [Retail Customer](retail-customer) wishes to place in a set of [Participation Pools](participation-pool).
