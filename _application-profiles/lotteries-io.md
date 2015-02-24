@@ -21,7 +21,7 @@ The [Gaming Products](../concepts/gaming-product) on offer are discovered by fol
 
 The [Order](../concepts/order) is formulated in a JSON document that is an object with at least two fields:
 * [metadata](../properties/metadata)
-* [gaming-product-orders](../properties/gaming-product-order)
+* [gaming-product-orders](../properties/gaming-product-orders)
 
 ### Metadata Block
 
