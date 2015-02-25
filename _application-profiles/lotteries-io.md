@@ -41,7 +41,7 @@ Additional, provide:
 - [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 For example:
-~~~ JSON
+{% highlight json %}
 {
     "metadata":{
 		"_links": {
@@ -64,7 +64,7 @@ For example:
         "creation-timestamp": "2015-02-18T04:57:56Z"
     }
 }
-~~~
+{% endhighlight %}
 
 ### Gaming Product Order Block
 
