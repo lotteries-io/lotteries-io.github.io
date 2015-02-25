@@ -74,6 +74,7 @@ The gaming product orders block contains [Gaming Product Order](../concepts/gami
 A gaming product order specifies unambiguously which [Bets](../concepts/bet) are to be placed in which [Participation Pools](../concepts/participation-pool) for that [Gaming Product](../concepts/gaming-product).
 
 It thus has two properties:
+
 * [bets](../properties/bets), a list of [Bet Specifications](../concepts/bet-specification) that produce bets in that are valid according to the [Betting Schemes](../concepts/betting-scheme) of all the [Participation Pools](../concepts/participation-pool) specified.
 * [participation-pools](../properties/participation-pools), a [Participation Pool Specification](../concepts/participation-pool-specification) that can be evaluated to a set of [Participation Pools].
 
