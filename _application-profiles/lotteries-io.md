@@ -20,22 +20,25 @@ The [Gaming Products](../concepts/gaming-product) on offer are discovered by fol
 ## The Order Document
 
 The [Order](../concepts/order) is formulated in a JSON document that is an object with at least two fields:
-* [metadata](../properties/metadata)
-* [gaming-product-orders](../properties/gaming-product-orders)
+
+- [metadata](../properties/metadata)
+- [gaming-product-orders](../properties/gaming-product-orders)
 
 ### Metadata Block
 
 The metadata block contains information about the origin of the order. The following definition maybe extended or overwritten by operator application profiles.
 
 Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links, and so we use the HAL-JSON conventions. The following links are expected:
-* [retailer](../link-relationships/retailer), the URI that is agreed to represent the retailer. Normally allocated by the operator.
-* [retail-customer](../link-relationships/retail-customer), the URI that represents the [Retail Customer](../concepts/retail-customer).
-* [retailer-reference](../link-relationships/retailer-order-reference), the URI that represents the [Order](../concepts/order) at the retailer. Used for correlation purposes.
+
+- [retailer](../link-relationships/retailer), the URI that is agreed to represent the retailer. Normally allocated by the operator.
+- [retail-customer](../link-relationships/retail-customer), the URI that represents the [Retail Customer](../concepts/retail-customer).
+- [retailer-reference](../link-relationships/retailer-order-reference), the URI that represents the [Order](../concepts/order) at the retailer. Used for correlation purposes.
 
 If no resolvable HTTP(s) URLs are available, then URNs should be used, the custom naming scheme to be agreed between the parties.
 
 Additional, provide:
-* [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
+
+- [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 For example:
 ```JSON
