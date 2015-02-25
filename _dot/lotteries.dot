@@ -1,0 +1,75 @@
+digraph lotteries {
+    retail_customer[label="retail-customer",shape="doublecircle"];
+    gaming_product_order[label="gaming-product-order", shape="box", fontsize="20"];
+    participation_pool[label="participation-pool", shape=box, fontsize="20"];
+    gaming_product[label="gaming-product",shape="box", fontsize="20"];
+    betting_scheme[label="betting-scheme"];
+    draw_participation_specification_scheme[label="draw-participation-specification-scheme"];
+    winning_scheme[label="winning-scheme"];
+    draw_schedule[label="draw-schedule"];
+    draw_organiser[label="draw-organiser"];
+    draw_scheme[label="draw-scheme"];
+    bet_specification[label="bet-specification"];
+    participation_pool_specification[label="participation-pool-specification"];
+    winning_class[label="winning-class"];
+    gaming_product_draw_view[label="gaming-product-draw-view"]; 
+    order_processing_result[label="order-processing-result"];
+    order[shape=box, fontsize="20"];
+    winning[shape=box,fontsize="20"];
+    draw[shape=box, fontsize="20"];
+    retailer[shape="doublecircle"];
+    operator[shape="doublecircle"];
+    draw_organiser[shape="doublecircle"];
+
+ 
+    retail_customer -> retailer[label="has account with"];
+    retail_customer -> order[label="creates"];
+    retailer -> order[label="forwards to operator"];
+    
+    retailer -> operator[label="has b2b retail channel relationship"]
+    
+    order -> gaming_product_order[label="contains 1 to N"];
+    order -> retail_customer[label="has metadata on"];
+    gaming_product_order -> bet_specification[label="contains 1 to N"];
+    gaming_product_order -> participation_pool_specification[label="contains"];
+    
+    order -> operator[label="submitted to"];
+    order -> order_processing_result[label="processing results in"];
+    order_processing_result -> participation_pool[label="accepted orders"];
+    order_processing_result -> retailer[label="notified to"];
+    
+    participation_pool_specification -> participation_pool[label="specifies 1 to N"];
+    
+    bet_specification -> bet[label="specifies 1 to N"];
+    bet -> participation_pool[label="belongs to"];
+    
+    bet -> winning_class[label="mapped by winners function\nfrom winning scheme given draw outcome"];
+    winning_class -> winning[label="mapped by quotas function\n from winning schem"];
+    
+    retailer -> winning[label="claims on behalf of retail-customer"];
+    winning -> retail_customer[label="due to"];
+    
+    operator -> participation_pool[label="offers"];
+    operator -> gaming_product[label="offers branded sequence\n of participation pools"];
+    
+    gaming_product -> betting_scheme[label="current"];
+    gaming_product -> draw_participation_specification_scheme[label="current"];
+    gaming_product -> winning_scheme[label="current"];
+    gaming_product -> gaming_product[label="may reference another"];
+
+    
+    participation_pool -> draw[label="organised around outcome of"];
+    participation_pool -> gaming_product;
+    participation_pool -> betting_scheme[label="valid bets defined by"];
+    participation_pool -> winning_scheme[label="processing defined by"];
+    participation_pool -> gaming_product_draw_view[label="may draw on"];
+    
+    gaming_product_draw_view -> draw[label="gather related product-specific\n data around draw"];
+    
+    draw -> draw_scheme[label="defines valid outcomes"];
+    
+    draw_schedule -> draw[label="defines timings"];
+    draw_organiser -> draw[label="organises"];
+    draw_organiser -> draw_schedule[label="publishes"];
+    
+}
