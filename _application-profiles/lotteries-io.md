@@ -41,7 +41,7 @@ Additional, provide:
 - [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 For example:
-```JSON
+~~~ JSON
 {
     "metadata":{
 		"_links": {
@@ -64,7 +64,7 @@ For example:
         "creation-timestamp": "2015-02-18T04:57:56Z"
     }
 }
-```
+~~~
 
 ### Gaming Product Order Block
 
@@ -78,7 +78,7 @@ It thus has two properties:
 * [participation-pools](../properties/participation-pools), a [Participation Pool Specification](../concepts/participation-pool-specification) that can be evaluated to a set of [Participation Pools].
 
 For example:
-```JSON
+~~~ JSON
 {
    "gaming-products-orders":{
 		"curies": [{
@@ -103,7 +103,7 @@ For example:
         }
     }
 }
-``` 
+~~~  
 
 ### Signing the Order HTTP Request
 The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03).
