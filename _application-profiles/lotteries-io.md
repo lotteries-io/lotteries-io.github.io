@@ -78,7 +78,7 @@ It thus has two properties:
 * [participation-pools](../properties/participation-pools), a [Participation Pool Specification](../concepts/participation-pool-specification) that can be evaluated to a set of [Participation Pools].
 
 For example:
-~~~ JSON
+{% highlight json %}
 {
    "gaming-products-orders":{
 		"curies": [{
@@ -103,7 +103,7 @@ For example:
         }
     }
 }
-~~~  
+{% endhighlight %}
 
 ### Signing the Order HTTP Request
 The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03).
