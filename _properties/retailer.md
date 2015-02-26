@@ -1,6 +1,6 @@
 ---
 layout: page
-title: retailer
+title: Retailer
 ---
 
 # Retailer
