@@ -28,7 +28,7 @@ The [Order](../concepts/order) is formulated in a JSON document that is an objec
 
 The metadata block contains information about the origin of the order. The following definition maybe extended or overwritten by operator application profiles.
 
-Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links. [Curies](http://www.w3.org/TR/curie/) may be used to provide a succinct representation of URIs using the JSON form used, for example, by [HAL-JSON](http://stateless.co/hal_specification.html). If given, they should be at the top of the document.
+Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links.
 
 The following properties are expected:
 
@@ -72,13 +72,8 @@ It thus has two properties:
 For example:
 {% highlight json %}
 {
-"curies": [{
-	"name": "op",
-	"href": "http://www.operator.com/gaming-products/{rel}",
-	"templated": true
-	}],
  "gaming-products-orders":{
-    "op:example": {
+    "http://www.operator.com/gaming-products/example": {
     	"bets":[
       	{
         	"foo": [1, 2, 3, 4, 5],
