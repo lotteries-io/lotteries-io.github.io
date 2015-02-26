@@ -1,6 +1,6 @@
 ---
 layout: page
-title: retail-customer
+title: Retail Customer
 ---
 
 # Retail Customer
