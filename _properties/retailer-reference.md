@@ -1,6 +1,6 @@
 ---
 layout: page
-title: retailer-reference
+title: Retailer Reference
 ---
 
 # Retailer Reference
