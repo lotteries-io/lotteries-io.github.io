@@ -1,10 +1,11 @@
 digraph lotteries {
     retail_customer[label="retail-customer",shape="doublecircle"];
-    gaming_product_order[label="gaming-product-order", shape="box", fontsize="20"];
-    participation_pool[label="participation-pool", shape=box, fontsize="20"];
-    gaming_product[label="gaming-product",shape="box", fontsize="20"];
+    gaming_product_order[label="gaming-product-order", shape="box", fontsize="20", style="filled", fillcolor="darkorange2"];
+    participation_pool[label="participation-pool", shape=box, fontsize="20", style="filled", fillcolor="darksalmon"];
+    bets_for_participation_pool[label="bets-for-participation-pool"];
+    gaming_product[label="gaming-product",shape="box", fontsize="20", style="filled", fillcolor="deepskyblue1"];
     betting_scheme[label="betting-scheme"];
-    draw_participation_specification_scheme[label="draw-participation-specification-scheme"];
+    participation_pool_specification_scheme[label="participation-pool-specification-scheme"];
     winning_scheme[label="winning-scheme"];
     draw_schedule[label="draw-schedule"];
     draw_organiser[label="draw-organiser"];
@@ -14,9 +15,9 @@ digraph lotteries {
     winning_class[label="winning-class"];
     gaming_product_draw_view[label="gaming-product-draw-view"]; 
     order_processing_result[label="order-processing-result"];
-    order[shape=box, fontsize="20"];
-    winning[shape=box,fontsize="20"];
-    draw[shape=box, fontsize="20"];
+    order[shape=box, fontsize="20",fillcolor="darkorange",style="filled"];
+    winning[shape=box,fontsize="20",style="filled", fillcolor="chocolate4"];
+    draw[shape=box, fontsize="20", style="filled", fillcolor="dodgerblue"];
     retailer[shape="doublecircle"];
     operator[shape="doublecircle"];
     draw_organiser[shape="doublecircle"];
@@ -38,12 +39,14 @@ digraph lotteries {
     order_processing_result -> participation_pool[label="accepted orders"];
     order_processing_result -> retailer[label="notified to"];
     
-    participation_pool_specification -> participation_pool[label="specifies 1 to N"];
+    participation_pool_specification -> bets_for_participation_pool[label="specifies"];
     
     bet_specification -> bet[label="specifies 1 to N"];
-    bet -> participation_pool[label="belongs to"];
+    bet -> bets_for_participation_pool[label="specifies"];
     
-    bet -> winning_class[label="mapped by winners function\nfrom winning scheme given draw outcome"];
+    bets_for_participation_pool -> participation_pool[label="intended for"];
+    
+    bets_for_participation_pool -> winning_class[label="mapped by winners function\nfrom winning scheme given draw outcome"];
     winning_class -> winning[label="mapped by quotas function\n from winning schem"];
     
     retailer -> winning[label="claims on behalf of retail-customer"];
