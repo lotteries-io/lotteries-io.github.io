@@ -9,11 +9,15 @@ This page defines the generic Application Profile for lottery applications. It i
 
 It is intended to be *extended* by operators to add their own particular semantics and requirements.
 
+# Home Document
+
+There is a `home` document available. The resource is a HAL-JSON document with various links to key resources.
+
 # Placing an Order
 
 The first use case is for a [Retailer](../concepts/retailer) to place an [Order](../concepts/order) with an [Operator](../concepts/operator) on behalf of a [Retail Customer](../concepts/retail-customer).
 
-[Orders](../concepts/order) may be placed at a resource discovered by navigating the [order-placement](../link-relationships/order-placement) link from the starting resource.
+[Orders](../concepts/order) may be placed at a resource discovered by navigating the [order-placement](../link-relationships/order-placement) link from the home document.
 
 The [Gaming Products](../concepts/gaming-product) on offer are discovered by following [available-gaming-product](../link-relationships/available-gaming-product) links. These resources also contain descriptions of the currently valid [Betting Scheme](../concepts/betting-scheme) and [Participation Pool Specification Scheme](../concepts/participation-pool-specification-scheme) for the product.
 
@@ -95,4 +99,115 @@ For example:
 ### Signing the Order HTTP Request
 The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak.
 
+# Discovering Gaming Products
 
+A retailer must be in a position to discover which [Gaming Products](../concepts/gaming-product) are available.
+
+Consequently, the home document provides links to [Available Gaming Groducts](../link-relationships/available-gaming-product).
+
+{% highlight json%}
+
+{
+	"_links": {
+		"http://www.lotteries.io/link-relationships/available-gaming-product": [{
+				"href": "/gaming-products/product1"
+			}, {
+				"href": "/gaming-products/product2"
+			}
+		]}
+}
+
+{% endhighlight %}
+
+Navigating these links provides more detail about the individual [Gaming Products](../concepts/gaming-product).
+
+## Information about Gaming Products
+
+The gaming product has its own home page, again a HAL-JSON document which gives information about:
+
+* optionally, a link to the [Reference Gaming Product](../link-relationships/reference-gaming-product)
+* a link to the [Current Winning Scheme](../link-relationships/current-winning-scheme)
+* a link to the current [Participation Pool Specification Scheme](../link-relationships/participation-pool-specification-scheme)
+* a link to the [Current Betting Scheme](../link-relationships/current-betting-scheme)
+* a link to the [Next Participation Pool](../link-relationships/next-participation-pool) to close (i.e. referencing the upcoming draw).
+* a link to the [Previous Participation Pool](../link-relationships/previous-participation-pool) to close (i.e. referencing the last draw)
+* the [Canonical Name](../properties/canonical-name) of the [Gaming Product](../concepts/gaming-product)
+* any other data that might be necessary
+
+{% highlight json%}
+{
+	"_links": {
+	  "curies": [
+	    {
+	      "name": "lo",
+	      "href": "http://www.lotteries.io/link-relationships/{link-relationship}",
+		  "templated": true
+	    }
+	  ],
+	  "lo:reference-gaming-product": {
+        "href": "http://www.operator2.com/gaming-products/foo"
+	  },
+      "lo:current-winning-scheme": {
+		"href": "http:/www.operator.com/gaming-products/product1/winning-scheme1"
+      },
+      "lo:participation-pool-specification-scheme": {
+        "href": "http://www.operator.com/gaming-products/product1/participation-pool-specification-scheme1"
+	  },
+      "lo:current-betting-scheme": {
+		"href": "http://www.operator.com/gaming-products/product1/betting-scheme1"
+      },
+      "lo:next-participation-pool": {
+		"href": "http://www.operator.com/gaming-products/product1/participation-pools/123"
+      },
+	  "lo:previous-participation-pool": {
+		"href": "http://www.operator.com/gaming-products/product1/participation-pools/122"
+      },
+	  "self": {
+		"href": "http://www.operator.com/gaming-products/product1"
+	  }
+   },
+   "canonical-name": "Product One"
+}
+
+{% endhighlight %}
+
+## Information about Participation Pools
+
+A resource describing a [Participation Pool](../concepts/participation-pool) supplies at least the following information:
+
+* link to a resource describing the [Gaming Product](../link-relationships/gaming-product).
+* link to a resource describing the [Reference Draw](../link-relationships/reference-draw)
+* optionally, a link to a resource describing the [Gaming Product Draw View](../link-relationships/gaming-product-draw-view) if this should be needed
+* the [Opening Time](../properties/opening-time) of the pool in ISO 8601 format at second level precision, preferably in UTC.
+* the [Closing Time](../properties/closing-time) of the pool in ISO 8601 format at second level precision, preferably in UTC.
+* the [Fail-safe Time](../properties/fail-safe-time) of the pool in ISO 8601 format at second level precision, preferably in UTC.
+
+{% highlight json%}
+{
+	"_links": {
+	  "curies": [
+	    {
+	      "name": "lo",
+	      "href": "http://www.lotteries.io/link-relationships/{link-relationship}",
+		  "templated": true
+	    }
+	  ],
+	  "lo:gaming-product": {
+        "href": "http://www.operator.com/gaming-products/product1"
+	  },
+      "lo:reference-draw": {
+		"href": "http://www.operator.com/draws/45678"
+      }
+      "lo:gaming-product-draw-view": {
+		"href": "http://www.operator.com/gaming-products/product1/draw-view/45678
+       }
+	  "self": {
+		"href": "http://www.operator.com/gaming-products/product1/participation-pools/123"
+	  }
+   },
+   "opening-time": "2015-02-26T18:00:00Z",
+   "closing-time": "2015-02-26T18:30:00Z",
+   "fail-safe-time": "2015-02-26T18:40:00Z",
+}
+
+{% endhighlight %}
