@@ -93,5 +93,6 @@ For example:
 {% endhighlight %}
 
 ### Signing the Order HTTP Request
-The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03).
+The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak.
+
 
