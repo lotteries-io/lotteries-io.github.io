@@ -20,48 +20,42 @@ The [Gaming Products](../concepts/gaming-product) on offer are discovered by fol
 ## The Order Document
 
 The [Order](../concepts/order) is formulated in a JSON document that is an object with at least two fields:
-* [metadata](../properties/metadata)
-* [gaming-product-orders](../properties/gaming-product-orders)
+
+- [metadata](../properties/metadata)
+- [gaming-product-orders](../properties/gaming-product-orders)
 
 ### Metadata Block
 
 The metadata block contains information about the origin of the order. The following definition maybe extended or overwritten by operator application profiles.
 
-Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links, and so we use the HAL-JSON conventions. The following links are expected:
-* [retailer](../link-relationships/retailer), the URI that is agreed to represent the retailer. Normally allocated by the operator.
-* [retail-customer](../link-relationships/retail-customer), the URI that represents the [Retail Customer](../concepts/retail-customer).
-* [retailer-reference](../link-relationships/retailer-order-reference), the URI that represents the [Order](../concepts/order) at the retailer. Used for correlation purposes.
+Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links.
+
+The following properties are expected:
+
+- [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator. 
+- [retail-customer](../properties/retail-customer). An object that should include a `href` property with a value that is the URI that represents the [Retail Customer](../concepts/retail-customer). 
+- [retailer-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes. Operator application profiles may specify that more customer detail should be supplied.
+- [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
+
 
 If no resolvable HTTP(s) URLs are available, then URNs should be used, the custom naming scheme to be agreed between the parties.
 
-Additional, provide:
-* [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
-
 For example:
-```JSON
+{% highlight json %}
 {
-    "metadata":{
-		"_links": {
-			"curies": [{
-				"name": "lo",
-				"href": "http://www.lotteries.io/link-relationships/{rel}",
-				"templated": true
-			}],
-			"lo:retailer": {
-				"href": "http://www.operator.com/entities/retailer"
-			},
-			"lo:retail-customer":{
-				"href":"http://www.retailer.com/customers/47890"
-			},
-			"lo:retailer-order-reference": {
-				"href": "http://www.retailer.com/orders/1234"
-			}
-			
-		},
-        "creation-timestamp": "2015-02-18T04:57:56Z"
-    }
-}
-```
+  "metadata": {
+    "retailer": {
+      "href": "http://www.operator.com/entities/retailer"
+    },
+    "retail-customer": {
+      "href": "http://www.retailer.com/customers/47890"
+    },
+    "retailer-order": {
+      "href": "http://www.retailer.com/orders/1234"
+    },
+    "creation-date": "2015-02-18T04:57:56Z"
+  },
+{% endhighlight %}
 
 ### Gaming Product Order Block
 
@@ -71,37 +65,34 @@ The gaming product orders block contains [Gaming Product Order](../concepts/gami
 A gaming product order specifies unambiguously which [Bets](../concepts/bet) are to be placed in which [Participation Pools](../concepts/participation-pool) for that [Gaming Product](../concepts/gaming-product).
 
 It thus has two properties:
+
 * [bets](../properties/bets), a list of [Bet Specifications](../concepts/bet-specification) that produce bets in that are valid according to the [Betting Schemes](../concepts/betting-scheme) of all the [Participation Pools](../concepts/participation-pool) specified.
 * [participation-pools](../properties/participation-pools), a [Participation Pool Specification](../concepts/participation-pool-specification) that can be evaluated to a set of [Participation Pools].
 
 For example:
-```JSON
+{% highlight json %}
 {
-   "gaming-products-orders":{
-		"curies": [{
-				"name": "op",
-				"href": "http://www.operator.com/gaming-products/{rel}",
-				"templated": true
-			}],
-        "op:example": {
-            "bets":[
-                {
-                    "foo":[1, 2, 3, 4, 5],
-                    "bar": [1, 8]
-                },
-                {
-                    "foo": [2, 4, 6, 29, 32],
-                    "bar": [4, 5]
-                }
-            ],
-            "participation-pools":{
-                "next": 8
-            }
+ "gaming-products-orders":{
+    "http://www.operator.com/gaming-products/example": {
+    	"bets":[
+      	{
+        	"foo": [1, 2, 3, 4, 5],
+          "bar": [1, 8]
+        },
+        {
+        	"foo": [2, 4, 6, 29, 32],
+          "bar": [4, 5]
         }
-    }
+      ],
+      "participation-pools":{
+      	"next": 8
+      }
+   }
+  }
 }
-``` 
+{% endhighlight %}
 
 ### Signing the Order HTTP Request
-The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03).
+The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak.
+
 
