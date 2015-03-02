@@ -19,7 +19,7 @@ The first use case is for a [Retailer](../concepts/retailer) to place an [Order]
 
 [Orders](../concepts/order) may be placed at a resource discovered by navigating the [order-placement](../link-relationships/order-placement) link from the home document.
 
-The [Gaming Products](../concepts/gaming-product) on offer are discovered by following [available-gaming-product](../link-relationships/available-gaming-product) links. These resources also contain descriptions of the currently valid [Betting Scheme](../concepts/betting-scheme) and [Participation Pool Specification Scheme](../concepts/participation-pool-specification-scheme) for the product.
+The [Gaming Products](../concepts/gaming-product) on offer are discovered by following [available-gaming-product](../link-relationships/available-gaming-product) links. These resources also contain descriptions of the currently valid [Betting Scheme](../concepts/betting-scheme), [Winning Scheme](../concepts/winning-scheme) and [Participation Pool Specification Scheme](../concepts/participation-pool-specification-scheme) for the product.
 
 ## The Order Document
 
@@ -98,6 +98,36 @@ For example:
 
 ### Signing the Order HTTP Request
 The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak.
+
+## Operator Order Resource
+
+If an [Operator](../concepts/operator) accepts the [Order](../concepts/order) for processing, the Operator undertakes to attempt to do what work is necessary to be able to accept the bets in the [Gaming Product Orders](../concepts/gaming-product-order) bindingly. Exactly what work that is is encapsulated within the operator systems.
+
+Accepting the order for processing means that a new resource is created in the operator system. This resource is *more* than just the order document and the HTTP request signature that is received from the [Retailer](../concepts/retailer).
+
+The order resource at the operator consists of:
+
+* a link to a byte-precise 	copy of the [Original Retailer Order](../link-relationships/original-retailer-order) and headers submitted by the retailer. Add a `request-target` header that corresponds to the original POST and target URI in order to make the signature header reproducible. 
+* a link to a resource describing the [Order Processing State](../link-relationships/order-processing-state) of the order.
+* [metadata](../properties/metadata), as from the original order
+* [gaming-product-orders](../properties/gaming-product-orders), as from the original order
+
+### Order Processing State
+
+The processing state is exposed as its own resource with at least the following properties:
+
+* link to [Order](../link-relationships/order) resource at the operator
+* link with [Retailer Order Reference](../link-relationships/retailer-order-reference)
+* [processing-state](../properties/processing-state)
+
+If the order was `accepted`, then the resource will also include:
+* [timestamp](../properties/timestamp)
+* [nominal-price](../properties/nominal-price)
+
+If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00).
+
+If the state is terminal (accepted, rejected, failed) then the HTTP Response will also be digitally signed by the [Operator](../concepts/operator).
+ 
 
 # Discovering Gaming Products
 
@@ -178,6 +208,8 @@ A resource describing a [Participation Pool](../concepts/participation-pool) sup
 * link to a resource describing the [Gaming Product](../link-relationships/gaming-product).
 * link to a resource describing the [Reference Draw](../link-relationships/reference-draw)
 * optionally, a link to a resource describing the [Gaming Product Draw View](../link-relationships/gaming-product-draw-view) if this should be needed
+* link to a resource describing the [Betting Scheme](../link-relationships/betting-scheme) that defines valid bets for the pool
+* link to a resource describing the [Winning Scheme](../link-relationships/winning-scheme) that defines how winning classes and winnings are computed for the pool
 * the [Opening Time](../properties/opening-time) of the pool in ISO 8601 format at second level precision, preferably in UTC.
 * the [Closing Time](../properties/closing-time) of the pool in ISO 8601 format at second level precision, preferably in UTC.
 * the [Fail-safe Time](../properties/fail-safe-time) of the pool in ISO 8601 format at second level precision, preferably in UTC.
@@ -197,10 +229,16 @@ A resource describing a [Participation Pool](../concepts/participation-pool) sup
 	  },
       "lo:reference-draw": {
 		"href": "http://www.operator.com/draws/45678"
-      }
+      },
       "lo:gaming-product-draw-view": {
 		"href": "http://www.operator.com/gaming-products/product1/draw-view/45678
-       }
+       },
+      "lo:betting-scheme": {
+         "href": "http://www.operator.com/gaming-products/product1/betting-scheme1"
+	  },
+      "lo:winning-scheme": {
+	     "href": "http://www.operator.com/gaming-products/product1/winning-scheme1"
+      },
 	  "self": {
 		"href": "http://www.operator.com/gaming-products/product1/participation-pools/123"
 	  }
