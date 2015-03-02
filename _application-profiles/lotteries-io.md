@@ -241,7 +241,7 @@ A resource describing a [Participation Pool](../concepts/participation-pool) sup
 		"href": "http://www.operator.com/draws/45678"
       },
       "lo:gaming-product-draw-view": {
-		"href": "http://www.operator.com/gaming-products/product1/draw-view/45678
+		"href": "http://www.operator.com/gaming-products/product1/draw-view/45678"
        },
       "lo:betting-scheme": {
          "href": "http://www.operator.com/gaming-products/product1/betting-scheme1"
