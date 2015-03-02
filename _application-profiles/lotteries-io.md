@@ -99,6 +99,16 @@ For example:
 ### Signing the Order HTTP Request
 The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak.
 
+## Initial Operator Order Processing
+
+On receipt of the [Order](../concepts/order) document, the [Operator](../concepts/operator) will perform some initial syntactical and semantic checks.
+
+If these fail, then a `400 Bad Request` will be returned along with an appropriate HTTP [Problem Details](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) document that supplies details of the issue encountered.
+
+If these pass, and there is not already a representation of the order present at the operator, then a `201 Created` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state) resource.
+
+If there is already a representation of the order at the operator, then  a `303 See Other` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state).
+
 ## Operator Order Resource
 
 If an [Operator](../concepts/operator) accepts the [Order](../concepts/order) for processing, the Operator undertakes to attempt to do what work is necessary to be able to accept the bets in the [Gaming Product Orders](../concepts/gaming-product-order) bindingly. Exactly what work that is is encapsulated within the operator systems.
@@ -107,7 +117,7 @@ Accepting the order for processing means that a new resource is created in the o
 
 The order resource at the operator consists of:
 
-* a link to a byte-precise 	copy of the [Original Retailer Order](../link-relationships/original-retailer-order) and headers submitted by the retailer. Add a `request-target` header that corresponds to the original POST and target URI in order to make the signature header reproducible. 
+* a link to a byte-precise copy of the [Original Retailer Order](../link-relationships/original-retailer-order) and headers submitted by the retailer. Add a `request-target` header that corresponds to the original POST and target URI in order to make the signature header reproducible. 
 * a link to a resource describing the [Order Processing State](../link-relationships/order-processing-state) of the order.
 * [metadata](../properties/metadata), as from the original order
 * [gaming-product-orders](../properties/gaming-product-orders), as from the original order
@@ -116,7 +126,7 @@ The order resource at the operator consists of:
 
 The processing state is exposed as its own resource with at least the following properties:
 
-* link to [Order](../link-relationships/order) resource at the operator
+* link back to the [Order](../link-relationships/order) resource at the operator
 * link with [Retailer Order Reference](../link-relationships/retailer-order-reference)
 * [processing-state](../properties/processing-state)
 
