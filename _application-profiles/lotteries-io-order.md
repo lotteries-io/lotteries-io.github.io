@@ -21,8 +21,8 @@ Informed by the Semantic Web, and Linked Data, the majority of metadata can be g
 The following properties are expected:
 
 - [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator. 
-- [retail-customer](../properties/retail-customer). An object that should include a `href` property with a value that is the URI that represents the [Retail Customer](../concepts/retail-customer). 
-- [retailer-order-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes. Operator application profiles may specify that more customer detail should be supplied.
+- [retail-customer](../properties/retail-customer). An object that should include a `href` property with a value that is the URI that represents the [Retail Customer](../concepts/retail-customer). Operator application profiles may specify that more customer detail should be supplied.
+- [retailer-order-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes.
 - [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 
@@ -80,8 +80,18 @@ For example:
 }
 {% endhighlight %}
 
-### Signing the Order HTTP Request
-The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak.
+## Signing the Order HTTP Request
+The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak. Operators may specify which digest algorithms they accept in their own application profile.
+
+## Order Identity
+
+*The identity of the order is considered to be a cryptographic hash over the entire body content (including whitespace, etc).*
+
+That is important.
+
+If the retailer resends the same logical content but formatted differently then it will have a different digest and be treated as a fresh order on the operator side.
+
+Note that the same bet and participation pool specifications may be submitted multiple times - this is part of daily business. If a retailer sends the same [retailer-order-reference](../properties/retailer-order-reference) multiple times (either with the same logical content but formatted differently, or with different logical content), then they will have to deal with the additional order costs and the complexity of disentangling what they really meant themselves.
 
 ## Initial Operator Order Processing
 
@@ -89,7 +99,7 @@ On receipt of the [Order](../concepts/order) document, the [Operator](../concept
 
 If these fail, then a `400 Bad Request` will be returned along with an appropriate HTTP [Problem Details](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) document that supplies details of the issue encountered.
 
-If these pass, and there is not already a representation of the order present at the operator, then a `201 Created` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state) resource.
+If these pass, and there is not already a representation of the order present at the operator (as identified by the body digest), then a `201 Created` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state) resource.
 
 If there is already a representation of the order at the operator, then  a `303 See Other` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state).
 
