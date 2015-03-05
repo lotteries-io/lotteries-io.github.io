@@ -22,7 +22,7 @@ The following properties are expected:
 
 - [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator. 
 - [retail-customer](../properties/retail-customer). An object that should include a `href` property with a value that is the URI that represents the [Retail Customer](../concepts/retail-customer). 
-- [retailer-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes. Operator application profiles may specify that more customer detail should be supplied.
+- [retailer-order-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes. Operator application profiles may specify that more customer detail should be supplied.
 - [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 
@@ -38,7 +38,7 @@ For example:
     "retail-customer": {
       "href": "http://www.retailer.com/customers/47890"
     },
-    "retailer-order": {
+    "retailer-order-reference": {
       "href": "http://www.retailer.com/orders/1234"
     },
     "creation-date": "2015-02-18T04:57:56Z"
