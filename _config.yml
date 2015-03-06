@@ -19,7 +19,7 @@ collections:
     output: true
   properties:
     output: true
-  problem-details:
+  problem-types:
     output: true
 
 # Build settings
