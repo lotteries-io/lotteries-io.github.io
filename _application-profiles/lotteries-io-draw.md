@@ -41,7 +41,7 @@ For example:
         "href": "http://www.operator.com/draws/series1"
       }
      "self": {
- 	      "href": "http://www.operator.com/draws/series1/123456"
+        "href": "http://www.operator.com/draws/series1/123456"
      }
    },
    "draw-time": "2015-02-26T18:00:00Z",
@@ -52,3 +52,46 @@ For example:
 
 {% endhighlight %}
 
+## Named Draw Series
+
+A [Draw Series](../concepts/draw-series) is a named series of [Draws](../concepts/draw). The [Canonical Name](../properties/canonical-name) of a [Draw Series](../concepts/draw-series) may be the same as a [Gaming Product](../concepts/gaming-product) based around it - but *they are not the same thing*.
+
+A resource representing a [Draw Series](../concepts/draw-series) should include:
+
+* [draw-organiser](../link-relationships/draw-organiser)
+* [current-draw-scheme](../link-relationships/draw-scheme)
+* one or more [draw-schedule](../link-relationships/draw-schedule) links
+* [canonical-name](../properties/canonical-name)
+
+For example:
+
+{% highlight json%}
+{
+  "_links": {
+    "curies": [
+      {
+        "name": "lo",
+	      "href": "http://www.lotteries.io/link-relationships/{link-relationship}",
+	      "templated": true
+      }
+     ],
+     "lo:draw-organiser": {
+        "href": "http://www.operator.com/organisations/self"
+     },
+     "lo:current-draw-scheme": {
+       "href": "http://www.operator.com/draws/series1/scheme1"
+     },
+     "lo:draw-schedule": [{
+          "href": "http://www.operator.com/draws/series1/schedule1"
+      },{
+          "href": "http://www.operator.com/draws/series1/schedule2",
+          "name": "current"
+      }],
+     "self": {
+ 	      "href": "http://www.operator.com/draws/series1"
+     }
+   },
+   "canonical-name": "series1"
+}
+
+{% endhighlight %}
