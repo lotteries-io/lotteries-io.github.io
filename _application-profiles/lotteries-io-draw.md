@@ -54,7 +54,7 @@ For example:
 
 The draw schedule may change over time in accordance with the needs of the [Draw Organiser](../concepts/draw-organiser). The exact form **must** be defined by the operator application profile so that the expressions can be interpreted.
 
-Representation forms such as cron expressions or iCalendar (via [jCal](https://tools.ietf.org/html/rfc7265) are conceivable.
+Representation forms such as cron expressions or iCalendar (via [jCal](https://tools.ietf.org/html/rfc7265) are conceivable).
 
 ## Navigating the list of draws
 
