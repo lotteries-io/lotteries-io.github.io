@@ -130,4 +130,4 @@ If the order was `accepted`, then the resource will also include:
 
 If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00).
 
-If the state is terminal (accepted, rejected, failed) then the HTTP Response will also be digitally signed by the [Operator](../concepts/operator).
+If the state is terminal (accepted, rejected, failed) then the HTTP Response will also be digitally signed by the [Operator](../concepts/operator) as per [draft-cavage-http-signatures-03](http://tools.ietf.org/html/draft-cavage-http-signatures-03).
