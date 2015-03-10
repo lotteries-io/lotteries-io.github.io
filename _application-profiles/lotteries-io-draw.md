@@ -81,12 +81,9 @@ For example:
      "lo:current-draw-scheme": {
        "href": "http://www.operator.com/draws/series1/scheme1"
      },
-     "lo:draw-schedule": [{
+     "lo:draw-schedule": {
           "href": "http://www.operator.com/draws/series1/schedule1"
-      },{
-          "href": "http://www.operator.com/draws/series1/schedule2",
-          "name": "current"
-      }],
+      },
      "self": {
  	      "href": "http://www.operator.com/draws/series1"
      }
@@ -95,3 +92,35 @@ For example:
 }
 
 {% endhighlight %}
+
+## Draw Schedules
+
+[Draw Schedules](../concepts/draw-schedule) define the schedule for [Draws](../concepts/draw) in a [Draw Series](../concepts/draw-series) - in other words, a method of determining when future [Draws](../concepts/draw) will take place so that [Participation Pools](../concepts/participation-pool) can be created and opened in a timely fashion.
+
+The draw schedule may change over time in accordance with the needs of the [Draw Organiser](../concepts/draw-organiser). The exact form **must** be defined by the operator application profile so that the expressions can be interpreted.
+
+An example draw schedule might look as follows:
+
+{% highlight json%}
+{
+"scheduleTimeZone": "Europe/Berlin",
+"drawSchedule": [
+    {
+      "validFrom": "2000-01-01Z",
+      "schedule": {
+        "Wednesday": "18:50",
+        "Saturday": "22:45"
+      }
+    },
+    {
+      "validFrom": "2013-07-03Z",
+      "schedule": {
+        "Wednesday": "18:25",
+        "Saturday": "19:25"
+      }
+    }
+  ]
+}
+{% endhighlight %}
+
+Alternative representation forms such as cron expressions or iCalendar are conceivable.
