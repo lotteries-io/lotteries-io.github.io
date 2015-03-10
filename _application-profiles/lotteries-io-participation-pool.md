@@ -11,7 +11,7 @@ title: Lotteries.io Participation Pool
 A resource describing a [Participation Pool](../concepts/participation-pool) supplies at least the following information:
 
 * link to a resource describing the [Gaming Product](../link-relationships/gaming-product).
-* link to a resource describing the [Reference Draw](../link-relationships/reference-draw)
+* link to a resource describing the reference [Draw](../link-relationships/draw)
 * optionally, a link to a resource describing the [Gaming Product Draw View](../link-relationships/gaming-product-draw-view) if this should be needed
 * link to a resource describing the [Betting Scheme](../link-relationships/betting-scheme) that defines valid bets for the pool
 * link to a resource describing the [Winning Scheme](../link-relationships/winning-scheme) that defines how winning classes and winnings are computed for the pool
@@ -32,7 +32,7 @@ A resource describing a [Participation Pool](../concepts/participation-pool) sup
      "lo:gaming-product": {
         "href": "http://www.operator.com/gaming-products/product1"
      },
-     "lo:reference-draw": {
+     "lo:draw": {
        "href": "http://www.operator.com/draws/45678"
       },
       "lo:gaming-product-draw-view": {
@@ -62,7 +62,7 @@ The [Gaming Product Draw View](../concepts/gaming-product-draw-view) gives addit
 Only very high-level guidelines can be created at this level. The document should include, at least::
 
 * a link to the product whose view on the draw is being described [gaming-product](../link-relationships/gaming-product)
-* a link to the draw being referenced [reference-draw](../link-relationships/reference-draw)
+* a link to the draw being referenced [draw](../link-relationships/draw)
 
 {% highlight json%}
 {
@@ -77,7 +77,7 @@ Only very high-level guidelines can be created at this level. The document shoul
      "lo:gaming-product": {
         "href": "http://www.operator.com/gaming-products/product1"
      },
-     "lo:reference-draw": {
+     "lo:draw": {
        "href": "http://www.operator.com/draws/45678"
       }
    }
