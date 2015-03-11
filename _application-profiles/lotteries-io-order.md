@@ -132,10 +132,44 @@ If the order was `rejected` or `failed` then the resource will also include a de
 
 If the state is terminal (accepted, rejected, failed) then the HTTP Response will also be digitally signed by the [Operator](../concepts/operator) as per [draft-cavage-http-signatures-03](http://tools.ietf.org/html/draft-cavage-http-signatures-03).
 
-## Enumerating Orders
+## Listing Order Links
 
-TODO
+Lists of order links may be returned from resources that enumerate orders or that return the results of searching for orders.
 
-## Searching for an Order
+Such lists are essentially lists of linkst o operator order resources that are sorted by date of entry into the operator system. They may be paged, in which case the standard `next` and `previous` link relationships are used to move through the collection.
 
-TODO
+For example, 
+
+{% highlight json%}
+{
+   "_links":{
+      "curies":[
+         {
+            "name":"lo",
+            "href":"http://www.lotteries.io/link-relationships/{link-relationship}",
+            "templated":true
+         }
+      ],
+      "lo:order":[
+         {
+            "href":"/orders/123456"
+         },
+         {
+            "href":"/orders/123455"
+         }
+      ]
+   },
+   "lo:orders":{
+      "href":"/orders"
+   },
+   "self":{
+      "href":"/orders/search?fromDate=2015-03-09Z?page=2"
+   },
+   "next":{
+      "href":"/orders/search?fromDate=2015-03-09Z?page=3"
+   },
+   "prev":{
+      "href":"/orders/search?fromDate=2015-03-09Z?page=1"
+   }
+}
+{% endhighlight %}
