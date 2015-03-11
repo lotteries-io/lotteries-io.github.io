@@ -13,13 +13,11 @@ There is a `home` document available. The resource is a HAL-JSON document with v
 [Orders](../concepts/order) may be placed at a resource discovered by navigating the [order-placement](../link-relationships/order-placement) link from the home document.
 
 ### Order Enumeration and Search
-[Orders](../concepts/order) may be enumerated at a resource discovered by navigating the [orders](../link-relationships/orders) link from the home document.
+An [order-search](../link-relationships/order-search) link will be provided. Again, the results will be constrained by authentication information of the client.
 
-Note that the selection of orders that are available to navigate will depend on the authentication information of the client. In particular, the [Operator](../concepts/operator) will be able to see all orders whereas an individual [Retailer](../concepts/retailer) will only be able to see those orders submitted and 'owned' by that organisation and no others.
+Orders may be enumerated by simply providing no parameters to the search resource. If the client is authenticated as a retailer then the resources returned are implicitly constrained to those that were submitted by the retailer. By contrast, a user or client authenticated as the [Operator](../concepts/operator) will be able to see all orders whereas an individual [Retailer](../concepts/retailer) will only be able to see those orders submitted and 'owned' by that organisation and no others.
 
-An [order-search](../link-relationships/order-search) link should also be provided. Again, the results will be constrained by authentication information of the client.
-
-Both enumeration and search return a list of links to orders, as described in the [lotteries-io-order](lotteries-io-order) application profile.
+Search return a list of links to orders, as described in the [lotteries-io-order](lotteries-io-order) application profile.
 
 ## Available Gaming Products
 
