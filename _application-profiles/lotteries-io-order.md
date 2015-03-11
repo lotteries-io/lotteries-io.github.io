@@ -23,6 +23,7 @@ The following properties are expected:
 - [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator. 
 - [retail-customer](../properties/retail-customer). An object that should include a `href` property with a value that is the URI that represents the [Retail Customer](../concepts/retail-customer). Operator application profiles may specify that more customer detail should be supplied.
 - [retailer-order-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes.
+- [retailer-brand](../properties/retailer-brand). An *optional* object. If present, should include a `href` property with a value that is the URI that represents the identity of the retailer's brand, if orders are being sold under a variety of labels by a single retailer entity. If absent, implicitly the same as the [retailer](../properties/retailer).
 - [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
 
