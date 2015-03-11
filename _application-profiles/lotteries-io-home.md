@@ -56,7 +56,7 @@ If the service offers information about [Draw Series](../concepts/draw-series) t
       "href":"/orders"
    },
    "lo:order-search": {
-      "href":"/orders/search{?retail-customer/href,retailer-order-reference/href},
+      "href":"/orders/search{?retailer/href,retail-customer/href,retailer-order-reference/href,fromDate,toDate,processing-state},
       "templated":true
    },
    "lo:available-draw-series":[
