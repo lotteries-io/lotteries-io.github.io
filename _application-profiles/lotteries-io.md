@@ -10,6 +10,7 @@ This page defines the generic Application Profile for lottery applications. It i
 It is intended to be *extended* by operators to add their own particular semantics and requirements.
 
 It consists of the *combination* of various sub-profiles, each of which may be extended and overwritten by operators as required.
+
 * [Lotteries.io Home](lotteries-io-home)
 * [Lotteries.io Order](lotteries-io-order)
 * [Lotteries.io Gaming Product](lotteries-io-gaming-product)
