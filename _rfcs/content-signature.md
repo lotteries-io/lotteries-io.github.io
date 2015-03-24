@@ -114,11 +114,7 @@ Given all this, the `Content-Signature` header would now look like:
 
 ```
 Content-Signature: keyId="lotteries-io",algorithm="rsa-sha256",
-   signature="UNtlSkR94FjgGstW238OcfxGSvEAtCJ8wikagpPdympgO7kjiM8PFpQ06vfKOtM3hGqMhGkrEI85
-pErk94ou6E/pY8N7XGYgWdrvc3I1j0yaWAfUn3yCezl7slXfIs+Ph2zP+0LGgX3bVJrhYat+65bH
-LC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD
-6OEZFm8pM5eoA/akzB+j5IkgkTK1bXryJb60DOKYiB01hvKdfkxMk+X335+/n5nAuhQr990dg3mw
-zFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg=="
+   signature="UNtlSkR94FjgGstW238OcfxGSvEAtCJ8wikagpPdympgO7kjiM8PFpQ06vfKOtM3hGqMhGkrEI85pErk94ou6E/pY8N7XGYgWdrvc3I1j0yaWAfUn3yCezl7slXfIs+Ph2zP+0LGgX3bVJrhYat+65bHLC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD6OEZFm8pM5eoA/akzB+j5IkgkTK1bXryJb60DOKYiB01hvKdfkxMk+X335+/n5nAuhQr990dg3mwzFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg=="
 ```
 
 
