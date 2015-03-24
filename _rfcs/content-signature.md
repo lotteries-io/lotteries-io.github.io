@@ -9,6 +9,8 @@ title: Content Signature
 
 Whilst the IETF draft standard on [Signing HTTP Messages](http://tools.ietf.org/html/draft-cavage-http-signatures-04) brings a relatively simple approach to signing HTTP requests and responses, it is nevertheless too complex for the simple task of providing a signature over HTTP entity body content. In particular, if the signature in combination with the entity body is to be reused by the consumer of the HTTP request or response, then saving the signed headers including the (optional) `Digest` and the pseudo-header `(request-target)` is additional effort that, shows that concerns are being conflated: HTTP traffic on the one hand, signatures over the entity body on the other.
 
+In time this may become a *proper* IETF RFC.
+
 ## Reference to `Content-MD5`
 
 We therefore define a new HTTP entity header: `Content-Signature` which is analogous to the existing [Content-MD5](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.15) header. Quoting the HTTP standard:
@@ -60,4 +62,65 @@ This digest is then signed and the data about the signature made available in th
 * `signature`
 
 ## Example
+
+Let us assume that we have 2048 bit RSA [private](private_key.pem) and [public](public_key.pem) keys that we have generated. For the purposes of this exercise we will given the alias `lotteries-io`.
+
+We also have a [file](example.txt) which will be the HTTP entity body. Its contents are:
+
+```
+This is an example.
+```
+
+We can compute the sha-256 hash over this using:
+```
+openssl dgst -sha256 example.txt | base64 > digest
+```
+
+This gives:
+
+```
+U0hBMjU2KGV4YW1wbGUudHh0KT0gYzgwYTk3MDQxZjE1YmExNjZiOWEzZThmYzJiMDk3MjZkNzc4
+YmMzYmQ5MzM4ZDRiZWZlMzRiNDY3MDdlYmVlYwo=
+```
+
+Signing the file using our private key is done, for example, as follows:
+
+```
+openssl dgst -sha256 -sign private_key.pem example.txt | base64 > signature.base64
+```
+
+This gives:
+```
+UNtlSkR94FjgGstW238OcfxGSvEAtCJ8wikagpPdympgO7kjiM8PFpQ06vfKOtM3hGqMhGkrEI85
+pErk94ou6E/pY8N7XGYgWdrvc3I1j0yaWAfUn3yCezl7slXfIs+Ph2zP+0LGgX3bVJrhYat+65bH
+LC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD
+6OEZFm8pM5eoA/akzB+j5IkgkTK1bXryJb60DOKYiB01hvKdfkxMk+X335+/n5nAuhQr990dg3mw
+zFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg==
+```
+
+Note that if we decode the base64 to raw bytes using `base64 --decode signature.base64 > signature.raw` we can then verify the signature using: 
+
+```
+openssl dgst -sha256 -verify public_key.pem -signature signature.raw example.txt
+```
+
+This gives:
+
+```
+Verified OK
+```
+
+Given all this, the `Content-Signature` header would now look like:
+
+```
+Content-Signature: keyId="lotteries-io",algorithm="rsa-sha256",
+   signature="UNtlSkR94FjgGstW238OcfxGSvEAtCJ8wikagpPdympgO7kjiM8PFpQ06vfKOtM3hGqMhGkrEI85
+pErk94ou6E/pY8N7XGYgWdrvc3I1j0yaWAfUn3yCezl7slXfIs+Ph2zP+0LGgX3bVJrhYat+65bH
+LC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD
+6OEZFm8pM5eoA/akzB+j5IkgkTK1bXryJb60DOKYiB01hvKdfkxMk+X335+/n5nAuhQr990dg3mw
+zFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg=="
+```
+
+
+
 
