@@ -61,6 +61,33 @@ This digest is then signed and the data about the signature made available in th
 * `keyId`
 * `signature`
 
+### Algorithms
+
+Cavage points out that a signature algorithm registry should be created at IANA. At the time of writing (March 24 2015) this has not yet happened. The TLS spec names the following hash algorithms:
+
+* md5 
+* sha1
+* sha224
+* sha256
+* sha384
+* sha512
+
+Note that the use of md5 and sha1 is discouraged due to collision attacks.
+
+The spec also names the following signature algorithms:
+
+* rsa
+* dsa
+* ecdsa
+
+We therefore recommend that when *naming* algorithms the following simple scheme be used:
+
+```
+$signatureAlgorithm-$hashAlgorithm
+```
+
+We also recommend that only the above algorithm names be used (for the time being).
+
 ## Example
 
 Let us assume that we have 2048 bit RSA [private](private_key.pem) and [public](public_key.pem) keys that we have generated. For the purposes of this exercise we will given the alias `lotteries-io`.
@@ -116,6 +143,19 @@ Given all this, the `Content-Signature` header would now look like:
 Content-Signature: keyId="lotteries-io",algorithm="rsa-sha256",signature="UNtlSkR94FjgGstW238OcfxGSvEAtCJ8wikagpPdympgO7kjiM8PFpQ06vfKOtM3hGqMhGkrEI85pErk94ou6E/pY8N7XGYgWdrvc3I1j0yaWAfUn3yCezl7slXfIs+Ph2zP+0LGgX3bVJrhYat+65bHLC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD6OEZFm8pM5eoA/akzB+j5IkgkTK1bXryJb60DOKYiB01hvKdfkxMk+X335+/n5nAuhQr990dg3mwzFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg=="
 ```
 
+## Summarizing
+
+In summary, then given the following variables with syntax and semantics as defined above:
+
+* `keyId`
+* `algorithm`
+* `signature`
+
+we construct `Content-Signature` as follows:
+
+```
+Content-Signature: keyId=$keyId,algorithm=$algorithm,signature=$signature
+```
 
 
 
