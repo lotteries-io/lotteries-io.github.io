@@ -100,20 +100,19 @@ This is an example.
 
 We can compute the sha-256 hash over this using:
 ```
-openssl dgst -sha256 example.txt | base64 > digest
+openssl dgst -sha256 -binary example.txt | base64 > digest
 ```
 
 This gives:
 
 ```
-U0hBMjU2KGV4YW1wbGUudHh0KT0gYzgwYTk3MDQxZjE1YmExNjZiOWEzZThmYzJiMDk3MjZkNzc4
-YmMzYmQ5MzM4ZDRiZWZlMzRiNDY3MDdlYmVlYwo=
+yAqXBB8VuhZrmj6PwrCXJtd4vDvZM41L7+NLRnB+vuw=
 ```
 
 Signing the file using our private key is done, for example, as follows:
 
 ```
-openssl dgst -sha256 -sign private_key.pem example.txt | base64 > signature.base64
+openssl dgst -sha256 -binary -sign private_key.pem example.txt | base64 > signature.base64
 ```
 
 This gives:
@@ -128,7 +127,7 @@ zFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg==
 Note that if we decode the base64 to raw bytes using `base64 --decode signature.base64 > signature.raw` we can then verify the signature using: 
 
 ```
-openssl dgst -sha256 -verify public_key.pem -signature signature.raw example.txt
+openssl dgst -sha256 -binary -verify public_key.pem -signature signature.raw example.txt
 ```
 
 This gives:
