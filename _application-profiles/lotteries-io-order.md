@@ -129,7 +129,7 @@ If the order was `accepted`, then the resource will also include:
 * [timestamp](../properties/timestamp)
 * [nominal-price](../properties/nominal-price)
 
-If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00).
+If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) under the key `problem-details`.
 
 If the state is terminal (accepted, rejected, failed) then the HTTP Entity Body will also be digitally signed by the [Operator](../concepts/operator) as per [Content Signatures](../rfcs/content-signature).
 
