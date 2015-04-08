@@ -63,18 +63,18 @@ For example:
 {
  "gaming-products-orders":{
     "http://www.operator.com/gaming-products/example": {
-    	"bets":[
+    	"bets": [
       	{
-        	"foo": [1, 2, 3, 4, 5],
+          "foo": [1, 2, 3, 4, 5],
           "bar": [1, 8]
         },
         {
-        	"foo": [2, 4, 6, 29, 32],
+          "foo": [2, 4, 6, 29, 32],
           "bar": [4, 5]
         }
       ],
-      "participation-pools":{
-      	"next": 8
+      "participation-pools": {
+        "next": 8
       }
    }
   }
@@ -126,6 +126,7 @@ The processing state is exposed as its own resource with at least the following 
 * [processing-state](../properties/processing-state)
 
 If the order was `accepted`, then the resource will also include:
+
 * [timestamp](../properties/timestamp)
 * [nominal-price](../properties/nominal-price)
 
