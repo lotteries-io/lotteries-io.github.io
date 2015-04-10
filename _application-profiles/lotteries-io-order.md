@@ -128,7 +128,6 @@ The processing state is exposed as its own resource with at least the following 
 
 If the order was `accepted`, then the resource will also include:
 
-* [timestamp](../properties/timestamp)
 * [nominal-price](../properties/nominal-price)
 
 If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) under the key `problem-details`.
@@ -139,7 +138,7 @@ If the state is terminal (accepted, rejected, failed) then the HTTP Entity Body 
 
 Lists of order links may be returned from resources that enumerate orders or that return the results of searching for orders.
 
-Such lists are essentially lists of linkst o operator order resources that are sorted by date of entry into the operator system. They may be paged, in which case the standard `next` and `previous` link relationships are used to move through the collection.
+Such lists are essentially lists of links to operator order resources that are sorted by date of entry into the operator system. They may be paged, in which case the standard `next` and `previous` link relationships are used to move through the collection.
 
 For example, 
 
