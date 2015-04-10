@@ -1,0 +1,9 @@
+[ tsa ]
+
+default_tsa = tsa_config1
+
+[ tsa_config1 ]
+
+serial = ts.serial
+digests = sha256
+default_policy = 1.2.3.4.1

@@ -2,29 +2,34 @@ digraph lotteries {
     retail_customer[label="retail-customer",shape="doublecircle"];
     gaming_product_order[label="gaming-product-order", shape="box", fontsize="20", style="filled", fillcolor="darkorange2"];
     participation_pool[label="participation-pool", shape=box, fontsize="20", style="filled", fillcolor="darksalmon"];
-    bets_for_participation_pool[label="bets-for-participation-pool"];
+    bets_for_participation_pool[label="bets-for-participation-pool",style="filled", fillcolor="darksalmon"];
     gaming_product[label="gaming-product",shape="box", fontsize="20", style="filled", fillcolor="deepskyblue1"];
-    betting_scheme[label="betting-scheme"];
-    participation_pool_specification_scheme[label="participation-pool-specification-scheme"];
-    winning_scheme[label="winning-scheme"];
-    draw_schedule[label="draw-schedule"];
-    draw_organiser[label="draw-organiser"];
-    draw_scheme[label="draw-scheme"];
-    bet_specification[label="bet-specification"];
-    participation_pool_specification[label="participation-pool-specification"];
-    winning_class[label="winning-class"];
-    gaming_product_draw_view[label="gaming-product-draw-view"]; 
+    betting_scheme[label="betting-scheme",style="filled", fillcolor="deepskyblue1"];
+    participation_pool_specification_scheme[label="participation-pool-specification-scheme",style="filled", fillcolor="deepskyblue1"];
+    winning_scheme[label="winning-scheme",style="filled", fillcolor="deepskyblue1"];
+    
+    draw_schedule[label="draw-schedule",style="filled",fillcolor="azure"];
+    draw_organiser[label="draw-organiser",style="filled",fillcolor="azure"];
+    draw_scheme[label="draw-scheme",style="filled",fillcolor="azure"];
+    draw_series[label="draw-series",shape="box", fontsize="20", style="filled", fillcolor="azure"];
+    draw[shape=box, fontsize="20", style="filled", fillcolor="azure"];
+    draw_organiser[shape="doublecircle", style="filled", fillcolor="azure"];
+    
+    bet_specification[label="bet-specification", style="filled",fillcolor="darkorange2"];
+    participation_pool_specification[label="participation-pool-specification", style="filled",fillcolor="darkorange2"];
+    winning_class[label="winning-class",style="filled", fillcolor="sandybrown"];
+    gaming_product_draw_view[label="gaming-product-draw-view",style="filled", fillcolor="darksalmon"]; 
     order_processing_result[label="order-processing-result"];
     order[shape=box, fontsize="20",fillcolor="darkorange",style="filled"];
-    winning[shape=box,fontsize="20",style="filled", fillcolor="chocolate4"];
-    draw[shape=box, fontsize="20", style="filled", fillcolor="dodgerblue"];
+    winning[shape=box,fontsize="20",style="filled", fillcolor="sandybrown"];
+    
     retailer[shape="doublecircle"];
-    operator[shape="doublecircle"];
-    draw_organiser[shape="doublecircle"];
+    operator[shape="doublecircle",style="filled", fillcolor="darksalmon"];
+    
+    bet[style="filled", fillcolor="darksalmon"];
 
  
     retail_customer -> retailer[label="has account with"];
-    retail_customer -> order[label="creates"];
     retailer -> order[label="forwards to operator"];
     
     retailer -> operator[label="has b2b retail channel relationship"]
@@ -47,16 +52,18 @@ digraph lotteries {
     bets_for_participation_pool -> participation_pool[label="intended for"];
     
     bets_for_participation_pool -> winning_class[label="mapped by winners function\nfrom winning scheme given draw outcome"];
-    winning_class -> winning[label="mapped by quotas function\n from winning schem"];
+    winning_class -> winning[label="mapped by quotas function\n from winning scheme"];
+    winning_scheme -> winning_class[label="computes"];
+    winning_scheme -> winning[label="computes"];
     
-    retailer -> winning[label="claims on behalf of retail-customer"];
+    retailer -> winning[label="claims on behalf of\nretail-customer"];
     winning -> retail_customer[label="due to"];
     
     operator -> participation_pool[label="offers"];
     operator -> gaming_product[label="offers branded sequence\n of participation pools"];
     
     gaming_product -> betting_scheme[label="current"];
-    gaming_product -> draw_participation_specification_scheme[label="current"];
+    gaming_product -> participation_pool_specification_scheme[label="current"];
     gaming_product -> winning_scheme[label="current"];
     gaming_product -> gaming_product[label="may reference another"];
 
@@ -70,9 +77,11 @@ digraph lotteries {
     gaming_product_draw_view -> draw[label="gather related product-specific\n data around draw"];
     
     draw -> draw_scheme[label="defines valid outcomes"];
+    draw -> draw_series[label="belongs to"];
     
     draw_schedule -> draw[label="defines timings"];
     draw_organiser -> draw[label="organises"];
-    draw_organiser -> draw_schedule[label="publishes"];
-    
+    draw_organiser -> draw_series[label="creates and\nmarkets"];
+    draw_series -> draw_schedule[label="scheduling"];
+    draw_series -> draw_scheme[label="current"];
 }
