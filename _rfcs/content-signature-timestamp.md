@@ -119,4 +119,19 @@ Content-Signature-Timestamp: MIICsjADAgEAMIICqQYJKoZIhvcNAQcCoIICmjCCApYCAQMxCzA
 Content-Signature: keyId="lotteries-io",algorithm="rsa-sha256",signature="UNtlSkR94FjgGstW238OcfxGSvEAtCJ8wikagpPdympgO7kjiM8PFpQ06vfKOtM3hGqMhGkrEI85pErk94ou6E/pY8N7XGYgWdrvc3I1j0yaWAfUn3yCezl7slXfIs+Ph2zP+0LGgX3bVJrhYat+65bHLC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD6OEZFm8pM5eoA/akzB+j5IkgkTK1bXryJb60DOKYiB01hvKdfkxMk+X335+/n5nAuhQr990dg3mwzFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg=="
 ```
 
+## Verifying the Content Signature Timestamp
+
+Finally, we show how the timestamp of the signature can be verified.
+
+```
+openssl ts -verify -data signature.raw -CAfile root-ca-cert.pem -untrusted timestamper-cert.pem -in signature.raw.tsr
+```
+
+And this produces the terse but informative: 
+
+```
+Verification: OK
+```
+
+In other words we can show when the signature was created, that it wasn't changed since then and that a trusted (in so far as we trust an authority whose unecrypted private keys are here on the internet!) Timestamping Authority vouches for that time.
 
