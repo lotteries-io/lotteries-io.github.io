@@ -19,7 +19,7 @@ Given the *raw bytes* (**NOT** the base64 encoded variant) of a digital signatur
 
 Digest algorithms with known weaknesses such as MD5 or SHA1 is should NOT be used.
 
-The content of the header is the base64 encoded `Timestamp Response` object obtained from the Timestamp Authority ob the basis of a query formed from the signature raw bytes.
+The content of the header is the base64 encoded `Timestamp Response` object obtained from the Timestamp Authority on the basis of a query formed from the signature raw bytes.
 
 This header MUST NOT be used in the absence of a `Content-Signature` header as it has no referent in this case.
 
@@ -45,7 +45,7 @@ We start by computing a RFC 3161 `Timestamp Query` over the raw signature.
 openssl ts -query -data signature.raw -sha256 -no_nonce -out signature.raw.tsq
 ```
 
-The query is now in the file `[signature.raw.tsq](signature.raw.tsq)`. In this case we have foregone the option to generate a random nonce and to request the full certificate from the Timestamping Authority.
+The query is now in the file [signature.raw.tsq](signature.raw.tsq). In this case we have foregone the option to generate a random nonce and to request the full certificate from the Timestamping Authority.
 
 To view request in human readable form, most people not being able to parse ASN.1, we can call:
 
