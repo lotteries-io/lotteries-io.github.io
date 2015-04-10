@@ -63,18 +63,18 @@ For example:
 {
  "gaming-products-orders":{
     "http://www.operator.com/gaming-products/example": {
-    	"bets":[
+    	"bets": [
       	{
-        	"foo": [1, 2, 3, 4, 5],
+          "foo": [1, 2, 3, 4, 5],
           "bar": [1, 8]
         },
         {
-        	"foo": [2, 4, 6, 29, 32],
+          "foo": [2, 4, 6, 29, 32],
           "bar": [4, 5]
         }
       ],
-      "participation-pools":{
-      	"next": 8
+      "participation-pools": {
+        "next": 8
       }
    }
   }
@@ -123,21 +123,22 @@ The processing state is exposed as its own resource with at least the following 
 
 * link back to the [Order](../link-relationships/order) resource at the operator
 * link with [Retailer Order Reference](../link-relationships/retailer-order-reference)
+* [order-hash](../properties/order-hash)
 * [processing-state](../properties/processing-state)
 
 If the order was `accepted`, then the resource will also include:
-* [timestamp](../properties/timestamp)
+
 * [nominal-price](../properties/nominal-price)
 
-If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00).
+If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) under the key `problem-details`.
 
-If the state is terminal (accepted, rejected, failed) then the HTTP Response will also be digitally signed by the [Operator](../concepts/operator) as per [draft-cavage-http-signatures-03](http://tools.ietf.org/html/draft-cavage-http-signatures-03).
+If the state is terminal (accepted, rejected, failed) then the HTTP Entity Body will also be digitally signed by the [Operator](../concepts/operator) as per [Content Signatures](../rfcs/content-signature).
 
 ## Listing Order Links
 
 Lists of order links may be returned from resources that enumerate orders or that return the results of searching for orders.
 
-Such lists are essentially lists of linkst o operator order resources that are sorted by date of entry into the operator system. They may be paged, in which case the standard `next` and `previous` link relationships are used to move through the collection.
+Such lists are essentially lists of links to operator order resources that are sorted by date of entry into the operator system. They may be paged, in which case the standard `next` and `previous` link relationships are used to move through the collection.
 
 For example, 
 

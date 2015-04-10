@@ -21,6 +21,8 @@ collections:
     output: true
   problem-types:
     output: true
+  rfcs:
+    output: true
 
 # Build settings
 markdown: kramdown
