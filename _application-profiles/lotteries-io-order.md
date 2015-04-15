@@ -123,7 +123,7 @@ The processing state is exposed as its own resource with at least the following 
 
 * link back to the [Order](../link-relationships/order) resource at the operator
 * link with [Retailer Order Reference](../link-relationships/retailer-order-reference)
-* [order-hash](../properties/order-hash)
+* [order-digest](../properties/order-digest)
 * [processing-state](../properties/processing-state)
 
 If the order was `accepted`, then the resource will also include:
