@@ -14,15 +14,13 @@ The [Order](../concepts/order) is formulated in a JSON document that is an objec
 
 ### Metadata Block
 
-The metadata block contains information about the origin of the order. The following definition maybe extended or overwritten by operator application profiles.
-
-Informed by the Semantic Web, and Linked Data, the majority of metadata can be given in the form of links.
+The metadata block contains information about the origin of the order. The following definition may be extended or overwritten by operator application profiles.
 
 The following properties are expected:
 
 - [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator. 
-- [retail-customer](../properties/retail-customer). An object that should include a `href` property with a value that is the URI that represents the [Retail Customer](../concepts/retail-customer). Operator application profiles may specify that more customer detail should be supplied.
-- [retailer-order-reference](../properties/retailer-order-reference). An object that should include a `href` property with a value that is the URI that represents the identity of the [Order](../concepts/order) at the retailer. May be used for correlation purposes.
+- [retail-customer](../properties/retail-customer). A string that identifies the [Retail Customer](../concepts/retail-customer) within the context of the [Retailer](../concepts/retailer). Operator application profiles may specify that more customer detail should be supplied in the form of an object.
+- [retailer-order-reference](../properties/retailer-order-reference). A string that identifies the [Order](../concepts/order) at the [Retailer](../concepts/retailer). May be used for correlation purposes.
 - [retailer-brand](../properties/retailer-brand). An *optional* object. If present, should include a `href` property with a value that is the URI that represents the identity of the retailer's brand, if orders are being sold under a variety of labels by a single retailer entity. If absent, implicitly the same as the [retailer](../properties/retailer).
 - [creation-timestamp](../properties/creation-date), the date and time when the order document was created at the retailer. This may be used to interpret the retailer's intentions with regard to the [Participation Pools](../concepts/participation-pool) the [Participation Pool Specification](../concepts/participation-pool-specification) in the [Gaming Product Orders](../concepts/gaming-product-order) defined below.
 
@@ -36,12 +34,8 @@ For example:
     "retailer": {
       "href": "http://www.operator.com/entities/retailer"
     },
-    "retail-customer": {
-      "href": "http://www.retailer.com/customers/47890"
-    },
-    "retailer-order-reference": {
-      "href": "http://www.retailer.com/orders/1234"
-    },
+    "retail-customer": "47890",
+    "retailer-order-reference": "1234",
     "creation-date": "2015-02-18T04:57:56Z"
   },
 {% endhighlight %}
@@ -123,7 +117,7 @@ The processing state is exposed as its own resource with at least the following 
 
 * link back to the [Order](../link-relationships/order) resource at the operator
 * link with [Retailer Order Reference](../link-relationships/retailer-order-reference)
-* [order-hash](../properties/order-hash)
+* [order-digest](../properties/order-digest)
 * [processing-state](../properties/processing-state)
 
 If the order was `accepted`, then the resource will also include:

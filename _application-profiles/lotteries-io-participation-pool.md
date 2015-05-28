@@ -85,3 +85,61 @@ Only very high-level guidelines can be created at this level. The document shoul
 {% endhighlight %}
 
 Further details are to be specified, where appropriate, in the definitions of [Gaming Products](../concepts/gaming-product) at the [Operator](../concepts/operator).
+
+## Enumerating and Navigating Participation Pools
+
+A resource listing participation pools is essentially an enhanced series of links sorted chronological by the `draw-time` of the reference `draw`, pools with earlier reference draws coming before later ones. Standard `next` and `prev` link relationships are used to navigate paged resources.
+
+The links are enhanced with additional properties: 
+
+* [pool-status](../properties/pool-status)
+* [pool-statistics](../properties/pool-statistics). Optional. Only displayed if client is entitled to view this data.
+
+An example listing might look like:
+
+{% highlight json%}
+{
+   "_links":{
+      "curies":[
+         {
+            "name":"lo",
+            "href":"http://www.lotteries.io/link-relationships/{link-relationship}",
+            "templated":true
+         }
+      ],
+      "lo:participation-pool":[
+         {
+            "href":"http://www.operator.com/gaming-products/product1/participation-pools/122",
+            "pool-status": "open",
+            "pool-statistics": {
+              "orders": 5000,
+              "bet-specifications": 15500,
+              "bets": 21345
+            }
+         },
+         {
+            "href":"http://www.operator.com/gaming-products/product1/participation-pools/121",
+            "pool-status": "closed",
+            "pool-statistics": {
+              "orders": 34664,
+              "bet-specifications": 55500,
+              "bets":84231
+            }
+         }
+      ],
+      "next":{
+         "href":"http://www.operator.com/gaming-products/product1/participation-pools?page=3"
+      },
+      "prev":{
+         "href":"http://www.operator.com/gaming-products/product1/participation-pools?page=1"
+      },
+      "lo:gaming-product":{
+         "href":"http://www.operator.com/gaming-products/product1"
+      },
+      "self":{
+         "href":"http://www.operator.com/gaming-products/product1/participation-pools?page=2"
+      }
+   }
+}
+
+{% endhighlight %}
