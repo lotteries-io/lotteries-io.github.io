@@ -111,22 +111,79 @@ The order resource at the operator consists of:
 * [metadata](../properties/metadata), as from the original order
 * [gaming-product-orders](../properties/gaming-product-orders), as from the original order
 
-### Order Processing State
+### Order Processing Result
 
-The processing state is exposed as its own resource with at least the following properties:
+The result of processing the order is exposed as its own resource. Unlike other aspects of the API, the processing state is not a hypermedia document that may evolve with new properties and link relationships over time. Rather, the terminal processing state (beyond `in-process`) is a formal documentation of the acceptance or rejection (or the failure of either) of liability for the bets specified in the Gaming Product Orders. 
 
-* link back to the [Order](../link-relationships/order) resource at the operator
-* link with [Retailer Order Reference](../link-relationships/retailer-order-reference)
-* [order-digest](../properties/order-digest)
-* [processing-state](../properties/processing-state)
+This document is important and immutable. The operator must vouch for its veracity and the time at which it is constructed must also be reliably witnessed in order to provide transparency to all key stakeholders.
+
+For example:
+
+{% highlight json%}
+{
+  "order-digest": "SHA256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "retailer-order-reference": "1234567",
+  "retailer": {
+    "href": "http://www.operator.com/entities/retailer"
+  },
+  "order-processing-result": "in-process"
+}
+{% endhighlight %}
+
+At least the following properties are provided:
+
+* [order-digest](../properties/order-digest). This allows the correctness of the document with respect to the original order to be demonstrated.
+* [retailer-order-reference](../properties/retailer-order-reference). This allows for simple correlation by the retailer.
+* [retailer](../properties/retailer)
+* [order-processing-result](../properties/order-processing-result). The interim or final result.
 
 If the order was `accepted`, then the resource will also include:
 
 * [nominal-price](../properties/nominal-price)
 
-If the order was `rejected` or `failed` then the resource will also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) under the key `problem-details`.
+For example:
 
-If the state is terminal (accepted, rejected, failed) then the HTTP Entity Body will also be digitally signed by the [Operator](../concepts/operator) as per [Content Signatures](../rfcs/content-signature).
+{% highlight json%}
+{
+  "order-digest": "sha256:5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "retailer-order-reference": "1234567",
+  "retailer": {
+    "href": "http://www.operator.com/entities/retailer"
+  },
+  "order-processing-result": "accepted",
+  "nominal-price": {
+    "http://www.operator.com/gaming-products/product1": {
+      "currency": "EUR",
+      "amount": "12.50"
+    },
+    "processing-fee": {
+      "currency": "EUR",
+      "amount": "1.00"
+    }
+  }
+}
+{% endhighlight %}
+
+If the order was `rejected` or `failed` then the resource MAY also include a description of the reasons why in the form of an embedded [HTTP Problem Document](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) under the key `problem-details`.
+
+For example:
+{% highlight json%}
+{
+  "order-digest": "sha256:5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "retailer-order-reference": "1234567",
+  "retailer": {
+    "href": "http://www.operator.com/entities/retailer"
+  },
+  "order-processing-result": "rejected",
+  "problem-details": {
+    "type": "http://www.lotteries.io/problem-types/invalid-order",
+    "title": "invalid order",
+    "detail": "too many bets specified"
+  }
+}
+{% endhighlight %}
+
+If the state is terminal (`accepted`, `rejected`, or `failed`) then the HTTP Entity Body will also be digitally signed by the [Operator](../concepts/operator) as per [Content Signature](../rfcs/content-signature). Additionally, the timestamp obtained by the operator over its digital signature will be published as per [Content Signature Timestamp](../rfcs/content-signature-timestamp).
 
 ## Listing Order Links
 
