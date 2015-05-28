@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Processing State
+title: Order Processing Result
 ---
 
-# Processing State
+# Order Processing Result
 
-Property of an [Order Processing State](../concepts/order-processing-state) that describes the formal state of order processing. Value is one of:
+Describes the formal state of order processing. Value is one of:
 
 * `in-process`. The order has been accepted for processing and the outcome is not yet known.
 * `accepted`. The order has been accepted as a whole. All [Bets](../concepts/bet) for all [Participation Pools](../concepts/participation-pool) specified in the embedded [Gaming Product Orders](../concepts/gaming-product-order) have been accepted and the [Operator](../concepts/operator) will be honoured.
