@@ -5,6 +5,7 @@
 With very large prizes typically available, the lottery business is characterised by the need for the operator business to be transparent and auditable. This auditability must be available both on and off the running operator transaction systems. And it must be possible to audit the [Orders](../concepts/order) and [Order Processing State Documents](../concepts/order-processing-state) using independently developed code given just various PKI certificates as input. 
 
 In order to achieve this goal a well-known format is required that provides a collection of orders and their processing results along with the requisite signatures and timestamps. That collection will be of size 1 - N and be the result of some search for orders, for example as the result of:
+
 * searching for a given order with a [Retailer Order Reference](../properties/retailer-order-reference).
 * browsing for an order and downloading it
 * searching for orders associated with a [Retail Customer](../properties/retail-customer).
@@ -34,23 +35,32 @@ For this we will need to provide, for each order:
 
 ## Collection Archive Structure
 
-In order to process such data, we need to be define a set of conventions for an archive file that can be made available by an operator system. This archive file with its well-known locations can then be processe d
+In order to process such data, we need to be define a set of conventions for an archive file that can be made available by an operator system. Implementations of scripts or programs to answer the above questions can then be assembled around readily available libraries.
 
-First, it seems appropriate to use a widely available archive
+We define the archive format to use as a **zip** file.
 
-Let us imagine the pool as a ZIP containing a set of directories, each directory being named after the sha-256 hash of the original order (and what we use for the identity of the order in ZOE). Within this directory we would then place the following files:
-* order (the raw order data)
-* order.headers (the headers that are input into the http signature routine, including a pseudo `request-target` header, necessarily including the Digest header and including the signature, each on a new line as per HTTP)
-* order.result (the processing result document from the operator, which must be of status `accepted`). This includes an `order-digest` field over the `order.json`.
-* order.result.signature. A properties document with three fields:
-** `signature-algorithm`. The standardised (as per Lotteries.io RFC) algorithm name for the signature algorithm used
-** `signature-value`. The base64 encoded operator signature, as per http://www.lotteries.io/rfcs/content-signature, over the `order.result` document
-** `signature-timestamp`. The base64 encoded RFC 3161 timestamp response over the operator signature as per http://www.lotteries.io/rfcs/content-signature
+### Orders as Directories
 
-There should also be a metadata file with the following fields:
+The data for each order is placed in a directory named according to the URL-safe base64 encoded sha-256 hash of the original order data.
+
+Within this directory the files with the following names and semantics are expected to be present:
+
+* `order` (the raw order data as submitted by the [Retailer](../concepts/retailer)).
+* `order.headers` (the raw HTTP headers that are input into the http signature routine, including a pseudo `request-target` header, necessarily including the `Digest` header and including the signature, each on a new line as per HTTP).
+* `order.result` (the terminal [order processing state](../concepts/order-processing-state) document from the operator in JSON format. This includes an `order-digest` field over the `order.json` which allows the processing result to be correlated with the input `order`).
+* `order.result.signature`. A JSON document describing an object with three string properties:
+** `signature-algorithm`. The standardised (as per [Content-Signature](content-signature)) algorithm name for the signature algorithm used
+** `signature-value`. The base64 encoded operator signature (as per [Content-Signature](content-signature)) over the `order.result` document
+** `signature-timestamp`. The base64 encoded RFC 3161 timestamp response over the operator signature as per [Content-Signature-Timestamp](content-signature-timestamp).
+
+### Collection Metadata
+Additionally, a file `metadata.json` at the top-level of the archive *may* be supplied giving information about the query executed to compile the order collection.
+
+For the present, we define data string properties to be supplied for a collection that represents a [Participation Pool](../concepts/participation-pool).
+
 * `gaming-product`: The "well-known" URL of the gaming product concerned
 * `participation-pool`: the URL of the pool at the operator
-* `draw-time`: The date and time of the draw in ISO 8601 format, preferably in UTC, as follows: 2015-02-23T05:12:17Z. 
+* `draw-time`: The date and time of the draw in ISO 8601 format, preferably in UTC, for example, as follows: 2015-02-23T05:12:17Z. 
 
 ## Routine
  
