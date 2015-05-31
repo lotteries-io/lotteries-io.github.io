@@ -92,3 +92,14 @@ In order to validate the integrity and provenance of an individual order in the 
   3. check that the `signature-timestamp` value refers to a hash over the `signature-value` as described in [Content Signature Timestamp](content-signature-timestamp).
   4. check that the timestamp was issued by one of the trusted timestamping authorities.
 
+Any failure should be collected and flagged for further investigation.
+
+### Further Checks and Processing
+
+Given a collection of order documents and associated terminal processing state and signatures that have passed normal integrity and provenance checks, a variety of further checks and processing can be performed as required. 
+
+For example, since the `order.result.signature` includes a trusted timestamp, we can check easily that an order document was witnessed to have been accepted before a given point in time, most likely before a [Draw](../concepts/draw). A processing routine may draw on information from the `metadata.json` file to assist or may seek user input.
+
+Given knowledge about [Gaming Products](../concepts/gaming-product) checking and processing routines can perform more sophisticated checks at the cost of additional complexity. For example, with the appropriate [Participation Pool Specification Scheme](../concepts/participation-pool-specification-scheme) it is possible to determine whether a given [Order](../concepts/order) contained a [Gaming Product Order](../concepts/gaming-product-order) that specified a given [Participation Pool](../concepts/participation-pool). Combined with a check as to whether the [order-processing-result](../properties/order-processing-result) property on the `order.result` document is `accepted`, this logic can be used to validate that an auditable collection of orders plausibly represents a participation pool, or at least a subset thereof.
+
+Given a [Betting Scheme](../concepts/betting-scheme), a [Draw Result](../concepts/draw-result) and a [Winning Scheme](../concepts/winning-scheme) for a given [Gaming Product](../concepts/gaming-product), offline computation of [Winning Classes](../concepts/winning-class) and [Winnings](../concepts/winning) can take place as required.
