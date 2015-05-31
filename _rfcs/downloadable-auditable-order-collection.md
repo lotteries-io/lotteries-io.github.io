@@ -24,12 +24,12 @@ We anticipate that an auditor would want the following questions answered:
 
 ## Input Required
  
-For this we will need to provide, for each order:
+In order to be able to answer these questions reliably we need, for each order:
 
-* the original order
-* the further header data that went into the retailer signature.
+* the original order document, a byte-precise copy of what was submitted by the retailer
+* the further header data that went into the retailer HTTP signature.
 * the retailer HTTP signature
-* the terminal order processing state document
+* the terminal order processing state document from the operator
 * the operator signature over the order processing result document
 * the timestamp of the TSA over the operator signature
 
@@ -56,21 +56,28 @@ Within this directory the files with the following names and semantics are expec
 ### Collection Metadata
 Additionally, a file `metadata.json` at the top-level of the archive *may* be supplied giving information about the query executed to compile the order collection.
 
-For the present, we define data string properties to be supplied for a collection that represents a [Participation Pool](../concepts/participation-pool).
+For the present, we define string properties to be supplied for a collection that represents a [Participation Pool](../concepts/participation-pool).
 
 * `gaming-product`: The "well-known" URL of the gaming product concerned
 * `participation-pool`: the URL of the pool at the operator
 * `draw-time`: The date and time of the draw in ISO 8601 format, preferably in UTC, for example, as follows: 2015-02-23T05:12:17Z. 
 
-## Routine
+## Auditing Routines
  
-A full validation routine will require as input:
-* a set of retailer certificates
-* the operator certificate
-* a set of trusted timestamping authority certificates
-* the time of the draw
-* a function to extract the participation pools for the gaming product concerned from the order so as to check whether the order has really specified bets for the pool being validated
+One of the strengths of using open and standardised archive structures, as defined above, along with public key cryptography, is that validation and processing routines can be implemented independently of each other using programming languages and libraries of choice. This approach allows for robust validation without forcing stakeholders to use routines supplied by the operator where they may, for whatever reason, have grounds for wanting to apply their own checks to achieve fully independent auditability.
  
+### Further Input 
+
+Given the questions we postulate will be asked of the data concerning the integrity, provenance and timing of the two key documents, the order and its terminal processing state, issued by the retailer and the operator respectively we need further input - the PKI certificates associated with:
+
+* retailers. For each retailer identifiable by a URI in the order document, a non-empty set of certificates whose validity spans should cover the time span represented by the earliest and latest [creation time](../properties/creation-time) properties in the order document.
+* the operator. A non-empty set of certificates covering the time span represented by the earliest and latest [creation time](../properties/creation-time) properties in the terminal order processing state documents.
+* the timestamping authorities being used. As for retailer and operator certificates, a non-empty set of certificates should be supplied for each timestamping authority used that cover the time span represented by the earliest and latest timestamps.
+
+Additionally, where necessary we will also need the root Certificate Authority certificates to establish the trust chain to these certificates where those CAs are not otherwise implicitly trusted.
+
+### Data Integrity and Trust Checking
+
 The full validation routine's logic is then:
 * create an accumulator for validation errors. This should (ideally) always be empty when the validation routine has completed.
 * for every directory in the ZIP file (this can be wonderfully parallelised, yeah)
