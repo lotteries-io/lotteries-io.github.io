@@ -70,29 +70,25 @@ One of the strengths of using open and standardised archive structures, as defin
 
 Given the questions we postulate will be asked of the data concerning the integrity, provenance and timing of the two key documents, the order and its terminal processing state, issued by the retailer and the operator respectively we need further input - the PKI certificates associated with:
 
-* retailers. For each retailer identifiable by a URI in the order document, a non-empty set of certificates whose validity spans should cover the time span represented by the earliest and latest [creation time](../properties/creation-time) properties in the order document.
-* the operator. A non-empty set of certificates covering the time span represented by the earliest and latest [creation time](../properties/creation-time) properties in the terminal order processing state documents.
-* the timestamping authorities being used. As for retailer and operator certificates, a non-empty set of certificates should be supplied for each timestamping authority used that cover the time span represented by the earliest and latest timestamps.
+* **retailers**. For each retailer identifiable by a URI in the order document, a non-empty set of certificates whose validity spans should cover the time span represented by the earliest and latest [creation time](../properties/creation-time) properties in the order document.
+* the **operator**. A non-empty set of certificates covering the time span represented by the earliest and latest [creation time](../properties/creation-time) properties in the terminal order processing state documents.
+* the RFC 3161 **timestamping authorities** being used. As for retailer and operator certificates, a non-empty set of certificates should be supplied for each timestamping authority used that cover the time span represented by the earliest and latest timestamps.
 
 Additionally, where necessary we will also need the root Certificate Authority certificates to establish the trust chain to these certificates where those CAs are not otherwise implicitly trusted.
 
 ### Data Integrity and Trust Checking
 
-The full validation routine's logic is then:
-* create an accumulator for validation errors. This should (ideally) always be empty when the validation routine has completed.
-* for every directory in the ZIP file (this can be wonderfully parallelised, yeah)
-** validate that the Digest header is correct for the order.json
-** validate that the order actually specifies participation in the pool being checked
-** validate that the retailer signature is correct and can be checked with the appropriate retailer certificate
-** if reachable, check the validity status of the retailer certificate via OCSP (this is optional, obviously)
-** check that the order-digest in the order result document matches the original order
-** check that the order-result states "accepted"
-** check the operator signature. Does it match the order-result document? Is it correct regarding the operator certificate?
-** if reachable, check the validity status of the operator certificate via OCSP (again, obviously optional)
-** check that the timestamp is over the supplied operator signature
-** check that the timestamp signature is supplied by one of the trusted TSAs whose certificates were supplied in the input 
-** check that the time in the timestamp is before the participation pool draw time
+In order to validate the integrity and provenance of an individual order in the collection, the following checks should be undertaken:
 
-Any errors should be collected in the accumulator.
+1. validate the integrity and provenance of the `order` document by analysing the `order.headers` document:
+  1. check the value of the `Digest` header matches the `order`
+  2. check that the HTTP Signature is valid given the headers in the signature (which **must** include `Digest`) and the certificate for the retailer identified in the order's `metadata` block that was valid at the point in time identified by the `creation-time` property. If there is no such certificate, then the check fails
+  3. check that the retailer certificate was issued by a trusted CA (directly or indirectly via an intermediate CA)
+  4. if possible, check the retailer certificate against the issuing CA's OCSP or CRL services to ascertain if the certificate had not been revoked at the time point identified by the `creation-time` property on the order
+2. validate that the `order.result` document actually refers to the `order` by comparing the `order-digest` property to the available `order` document
+3. validate that integrity and provenance of the `order.result` document by analysing the `order.result.signature` document:
+  1. check that the `signature-value` matches the `order-result` document given the operator certificate that was/is valid for the time in the `creation-time` property of the `order-result` document. If there is no such certificate, then the check fails
+  2. if possible, check the operator certificate against the issuing CA's OCSP or CRL services to ascertain if the certificate had not been revoked at the time point identified by the `creation-time` property on the `order.result` document
+  3. check that the `signature-timestamp` value refers to a hash over the `signature-value` as described in [Content Signature Timestamp](content-signature-timestamp).
+  4. check that the timestamp was issued by one of the trusted timestamping authorities.
 
-On completion, display results in a form to be defined by the product manager.
