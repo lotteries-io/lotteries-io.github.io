@@ -140,6 +140,10 @@ At least the following properties are provided:
 If the order was `accepted`, then the resource will also include:
 
 * [nominal-price](../properties/nominal-price)
+ 
+If the order was either `accepted`, `rejected` or `failed` then the resource will also include the following property:
+
+* [creation-time](../properties/creation-time). In this case the property means the time when the operator created the document.
 
 For example:
 
@@ -151,6 +155,7 @@ For example:
     "href": "http://www.operator.com/entities/retailer"
   },
   "order-processing-result": "accepted",
+  "creation-time": "2015-02-23T05:12:17Z",
   "nominal-price": {
     "http://www.operator.com/gaming-products/product1": {
       "currency": "EUR",
@@ -175,6 +180,7 @@ For example:
     "href": "http://www.operator.com/entities/retailer"
   },
   "order-processing-result": "rejected",
+  "creation-time": "2015-02-23T05:12:17Z",
   "problem-details": {
     "type": "http://www.lotteries.io/problem-types/invalid-order",
     "title": "invalid order",
