@@ -7,13 +7,21 @@ title: Content Signature
 
 ## Introduction
 
-Whilst the IETF draft standard on [Signing HTTP Messages](http://tools.ietf.org/html/draft-cavage-http-signatures-04) brings a relatively simple approach to signing HTTP requests and responses, it is nevertheless too complex for the simple task of providing a signature over HTTP entity body content. In particular, if the signature in combination with the entity body is to be reused by the consumer of the HTTP request or response, then saving the signed headers including the (optional) `Digest` and the pseudo-header `(request-target)` is additional effort that, shows that concerns are being conflated: HTTP traffic on the one hand, signatures over the entity body on the other.
+Whilst the IETF draft standard on [Signing HTTP Messages](http://tools.ietf.org/html/draft-cavage-http-signatures-04) brings a relatively simple approach to signing HTTP requests and responses, it is nevertheless too complex for the simple task of providing a signature over HTTP entity body content. In many cases we want to consider the entity bytes as a document that we can reuse in other contexts whilst retaining the digital signature over the document.
 
-In time this may become a *proper* IETF RFC.
+If we use the HTTP Signature approach this reuse of the entity as a signed document is made quite difficult. Signature validation means additional effort.
 
-## Reference to `Content-MD5`
+* saving the signed headers including the (optional) `Digest` header and the pseudo-header `(request-target)`
+* ensuring the `Digest` header is actually supplied (and matches the document bytes)
+* concatenating the headers correctly to produce the input to the signature function
 
-We therefore define a new HTTP entity header: `Content-Signature` which is analogous to the existing [Content-MD5](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.15) header. Quoting the HTTP standard:
+In sum we see how two concerns are being conflated: validating HTTP traffic on the one hand, signatures over the entity body on the other, and these concerns leak into subsequent document and signature processing.
+
+Therefore, drawing on existing work we therefore define a new HTTP entity header: `Content-Signature`.
+
+## Building on `Content-MD5`
+
+One of the most important conceptual stepping stones is the existing [Content-MD5](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.15) header. Quoting the HTTP standard:
 
 > The Content-MD5 entity-header field, as defined in RFC 1864 [23], is an MD5 digest of the entity-body for the purpose of providing an end-to-end message integrity check (MIC) of the entity-body. (Note: a MIC is good for detecting accidental modification of the entity-body in transit, but is not proof against malicious attacks.)
 >
@@ -32,7 +40,7 @@ We therefore define a new HTTP entity header: `Content-Signature` which is analo
 
 ## Reference to http-signatures
 
-The draft standard describes the scheme for a `Signature` header as follows:
+Significant work on authenticating HTTP requests and responses using digital signatures has been described in a draft standard. It describes the scheme for a `Signature` header as follows:
 
 >Creating a Signature
 >
@@ -51,7 +59,7 @@ The draft standard describes the scheme for a `Signature` header as follows:
 
 ## Synthesising `Content-Signature`
 
-If we take the insights from both of these standards we can synthesise a new header, `Content-Signature`. 
+If we take the insights from both of these standards we synthesise a new header, `Content-Signature`.
 
 The digest part of the signature is computed as per `Content-MD5` over the entity body bytes using the algorithm specified, before any transfer encoding (such as compression) is applied.
 
@@ -63,16 +71,16 @@ This digest is then signed and the data about the signature made available in th
 
 ### Algorithms
 
-Cavage points out that a signature algorithm registry should be created at IANA. At the time of writing (March 24 2015) this has not yet happened. The TLS spec names the following hash algorithms:
+Cavage points out that a signature algorithm registry should be created at IANA. At the time of writing (May 2015) this has not yet happened. The TLS spec names the following hash algorithms:
 
-* md5 
+* md5
 * sha1
 * sha224
 * sha256
 * sha384
 * sha512
 
-Note that the use of md5 and sha1 is discouraged due to collision attacks.
+Note that the use of md5 and sha1 is **strongly** discouraged due to collision attacks.
 
 The spec also names the following signature algorithms:
 
@@ -86,11 +94,11 @@ We therefore recommend that when *naming* algorithms the following simple scheme
 $signatureAlgorithm-$hashAlgorithm
 ```
 
-We also recommend that only the above algorithm names be used (for the time being).
+We also recommend that only the above algorithm names be used (for the time being). For example, a RSA signature over a sha256 hash would be named `rsa-sha256`.
 
 ## Example
 
-Let us assume that we have 2048 bit RSA [private](private_key.pem) and [public](public_key.pem) keys that we have generated. For the purposes of this exercise we will given the alias `lotteries-io`.
+Let us assume that we have 2048 bit RSA [private](private_key.pem) and [public](public_key.pem) keys. For the purposes of this exercise we will use the alias `lotteries-io`.
 
 We also have a [file](example.txt) which will be the HTTP entity body. Its contents are:
 
@@ -124,7 +132,7 @@ LC2Fr5q2aEBWCdSfe2U80NhzFk7zCZKFcMi2xftz+m/qcJ4uEq1knABo6JMAGukgwcrgiRmu+sBD
 zFaC/g19zjVkwQ87kKZn/yA2wEI5Ni6xFHpXCg==
 ```
 
-Note that if we decode the base64 to raw bytes using `base64 --decode signature.base64 > signature.raw` we can then verify the signature using: 
+Note that if we decode the base64 to raw bytes using `base64 --decode signature.base64 > signature.raw` we can then verify the signature using:
 
 ```
 openssl dgst -sha256 -binary -verify public_key.pem -signature signature.raw example.txt
@@ -144,7 +152,7 @@ Content-Signature: keyId="lotteries-io",algorithm="rsa-sha256",signature="UNtlSk
 
 ## Summarizing
 
-In summary, then given the following variables with syntax and semantics as defined above:
+In summary, given the following variables with syntax and semantics as defined above:
 
 * `keyId`
 * `algorithm`
@@ -155,6 +163,3 @@ we construct `Content-Signature` as follows:
 ```
 Content-Signature: keyId=$keyId,algorithm=$algorithm,signature=$signature
 ```
-
-
-

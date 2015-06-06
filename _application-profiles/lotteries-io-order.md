@@ -14,11 +14,11 @@ The [Order](../concepts/order) is formulated in a JSON document that is an objec
 
 ### Metadata Block
 
-The metadata block contains information about the origin of the order. The following definition may be extended or overwritten by operator application profiles.
+The metadata block contains information about the origin of the order. As always, the following definition may be extended or overwritten by operator application profiles.
 
 The following properties are expected:
 
-- [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator. 
+- [retailer](../properties/retailer). The object should include a `href` property which is the URI that is agreed to represent the retailer. May be allocated by the operator.
 - [retail-customer](../properties/retail-customer). A string that identifies the [Retail Customer](../concepts/retail-customer) within the context of the [Retailer](../concepts/retailer). Operator application profiles may specify that more customer detail should be supplied in the form of an object.
 - [retailer-order-reference](../properties/retailer-order-reference). A string that identifies the [Order](../concepts/order) at the [Retailer](../concepts/retailer). May be used for correlation purposes.
 - [retailer-brand](../properties/retailer-brand). An *optional* object. If present, should include a `href` property with a value that is the URI that represents the identity of the retailer's brand, if orders are being sold under a variety of labels by a single retailer entity. If absent, implicitly the same as the [retailer](../properties/retailer).
@@ -50,7 +50,7 @@ A gaming product order specifies unambiguously which [Bets](../concepts/bet) are
 It thus has two properties:
 
 * [bets](../properties/bets), a list of [Bet Specifications](../concepts/bet-specification) that produce bets in that are valid according to the [Betting Schemes](../concepts/betting-scheme) of all the [Participation Pools](../concepts/participation-pool) specified.
-* [participation-pools](../properties/participation-pools), a [Participation Pool Specification](../concepts/participation-pool-specification) that can be evaluated to a set of [Participation Pools].
+* [participation-pools](../properties/participation-pools), a [Participation Pool Specification](../concepts/participation-pool-specification) that can be evaluated to a set of [Participation Pools](../concepts/participation-pool).
 
 For example:
 {% highlight json %}
@@ -76,17 +76,20 @@ For example:
 {% endhighlight %}
 
 ## Signing the Order HTTP Request
-The order HTTP request is to be digitally signed by the retailer using the scheme described in the draft IETF Standard [Signing HTTP Messages](https://tools.ietf.org/html/draft-cavage-http-signatures-03). A `Digest` header for the HTTP entity as per [RFC 3230](http://tools.ietf.org/html/rfc3230) MUST be set and SHOULD be at least SHA-256. MD5 and SHA1 MAY NOT be used as they are too weak. Operators may specify which digest algorithms they accept in their own application profile.
+The order HTTP request MUST be digitally signed by the retailer using the scheme described in the [Content Signature](../rfcs/content-signature) draft standard. The signature is over the document bytes POSTed to the order placement endpoint. It is used to verify the integrity of the order as well as its provenance. In other words:
+
+* the hash in the signature must match the document
+* the key used to sign the document must be known as belonging the retailer identified in the `metadata` block. The operator may make regular against OCSP or CRL services to check whether a certificate issued over the public key has been revoked or not. In the case that it has been revoked, the order should be rejected.
 
 ## Order Identity
 
 *The identity of the order is considered to be a cryptographic hash over the entire body content (including whitespace, etc).*
 
-That is important.
+That is **important**.
 
 If the retailer resends the same logical content but formatted differently then it will have a different digest and be treated as a fresh order on the operator side.
 
-Note that the same bet and participation pool specifications may be submitted multiple times - this is part of daily business. If a retailer sends the same [retailer-order-reference](../properties/retailer-order-reference) multiple times (either with the same logical content but formatted differently, or with different logical content), then they will have to deal with the additional order costs and the complexity of disentangling what they really meant themselves.
+Note that the same bet and participation pool specifications may be submitted multiple times - this is part of daily business. If a retailer sends the same [retailer-order-reference](../properties/retailer-order-reference) multiple times (either with the same logical content but formatted differently, or with different logical content), then they will have to deal with the additional order costs and the complexity of disentangling what they really meant themselves!
 
 ## Initial Operator Order Processing
 
@@ -106,14 +109,14 @@ Accepting the order for processing means that a new resource is created in the o
 
 The order resource at the operator consists of:
 
-* a link to a byte-precise copy of the [Original Retailer Order](../link-relationships/original-retailer-order) and headers submitted by the retailer. Add a `request-target` header that corresponds to the original POST and target URI in order to make the signature header reproducible. 
+* a link to a byte-precise copy of the [Original Retailer Order](../link-relationships/original-retailer-order) and headers submitted by the retailer. Add a `request-target` header that corresponds to the original POST and target URI in order to make the signature header reproducible.
 * a link to a resource describing the [Order Processing State](../link-relationships/order-processing-state) of the order.
 * [metadata](../properties/metadata), as from the original order
 * [gaming-product-orders](../properties/gaming-product-orders), as from the original order
 
 ### Order Processing Result
 
-The result of processing the order is exposed as its own resource. Unlike other aspects of the API, the processing state is not a hypermedia document that may evolve with new properties and link relationships over time. Rather, the terminal processing state (beyond `in-process`) is a formal documentation of the acceptance or rejection (or the failure of either) of liability for the bets specified in the Gaming Product Orders. 
+The result of processing the order is exposed as its own resource. Unlike other aspects of the API, the processing state is not a hypermedia document that may evolve with new properties and link relationships over time. Rather, the terminal processing state (beyond `in-process`) is a formal documentation of the acceptance or rejection (or the failure of either) of liability for the bets specified in the Gaming Product Orders.
 
 This document is important and immutable. The operator must vouch for its veracity and the time at which it is constructed must also be reliably witnessed in order to provide transparency to all key stakeholders.
 
@@ -197,7 +200,7 @@ Lists of order links may be returned from resources that enumerate orders or tha
 
 Such lists are essentially lists of links to operator order resources that are sorted by date of entry into the operator system. They may be paged, in which case the standard `next` and `previous` link relationships are used to move through the collection.
 
-For example, 
+For example,
 
 {% highlight json%}
 {
