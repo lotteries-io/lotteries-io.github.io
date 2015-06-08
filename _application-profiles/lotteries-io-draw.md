@@ -19,14 +19,14 @@ A resource representing a [Draw Series](../concepts/draw-series) should include:
 
 For example:
 
-{% highlight json%}
+{% highlight json %}
 {
-  "_links": {
+  "_links" : {
     "curies": [
       {
         "name": "lo",
-	  "href": "http://www.lotteries.io/link-relationships/{link-relationship}",
-	  "templated": true
+	      "href": "http://www.lotteries.io/link-relationships/{link-relationship}",
+	      "templated": true
       }
      ],
      "lo:draw-organiser": {

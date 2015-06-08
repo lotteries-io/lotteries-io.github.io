@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "retailer": {
+      "href": "http://www.operator.com/entities/retailer.com"
+    },
+    "retail-customer": "2494363",
+    "retailer-order-reference": "23459156743",
+    "creation-date": "2015-06-07T09:37:21Z"
+  },
+  "gaming-product-orders": {
+    "http://www.operator.com/gaming-products/foo": {
+    	"bets": [
+      	{
+          "cats": [4, 7, 9, 21, 45],
+          "dogs": [0, 1]
+        }
+      ],
+      "participation-pools": {
+        "first": "2015-06-08",
+        "draw-count": 2
+      }
+   },
+   "http://www.operator.com/gaming-products/bar": {
+     "bets": [
+       {
+         "drinks": [7, 9, 21, 88]
+       }
+     ],
+     "participation-pools": {
+       "cycles": ["AM"],
+       "first-draw": "2015-06-10",
+       "draw-count": 4
+     }
+   }
+  }
+}

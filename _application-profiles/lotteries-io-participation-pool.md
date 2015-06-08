@@ -90,7 +90,7 @@ Further details are to be specified, where appropriate, in the definitions of [G
 
 A resource listing participation pools is essentially an enhanced series of links sorted chronological by the `draw-time` of the reference `draw`, pools with earlier reference draws coming before later ones. Standard `next` and `prev` link relationships are used to navigate paged resources.
 
-The links are enhanced with additional properties: 
+The links are enhanced with additional properties:
 
 * [pool-status](../properties/pool-status)
 * [pool-statistics](../properties/pool-statistics). Optional. Only displayed if client is entitled to view this data.
