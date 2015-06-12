@@ -65,38 +65,80 @@ ORDER=$(cat <<EOF
 }
 EOF
 )
-if [ -e retailer-order1.json ]; then
-  rm retailer-order1.json
-fi
-echo $ORDER > retailer-order1.json
 
+echo $ORDER > order.tmp	
+	
 #
 # compute sha256 of the order in "normal" base64
 #
-BASE64_SHA256=`sha256Base64 retailer-order1.json`
-echo $BASE64_SHA256
+BASE64_SHA256=`sha256Base64 order.tmp`
 
 #
 # url safe version of the base64 encoded sha256 hash
 #
 BASE64_SHA256_URL_SAFE=$(echo $BASE64_SHA256 | tr '+' '-' | tr '/' '_')
 
-mkdir orders
+#
+# place order in the correct target directory
+#
+
+if [ ! -e orders ]; then
+  mkdir orders	
+fi
 mkdir orders/$BASE64_SHA256_URL_SAFE
+if [ -e retailer-order1.json ]; then
+  rm retailer-order1.json
+fi
+mv order.tmp orders/$BASE64_SHA256_URL_SAFE/order.json
+
 
 
 
 #
 # compute retailer signature over the order
 #
+RETAILER_SIG_BASE64=$(openssl dgst -sha256 -binary -sign retailer/retailer-private_key.pem orders/$BASE64_SHA256_URL_SAFE/order.json | base64 -w 0)
+echo "algorithm=rsa-sha256" > orders/$BASE64_SHA256_URL_SAFE/order.signature
+echo "keyId=retailer1" >> orders/$BASE64_SHA256_URL_SAFE/order.signature
+echo "signature=$RETAILER_SIG_BASE64" >> orders/$BASE64_SHA256_URL_SAFE/order.signature
 
 #
 # draw up acceptance document by the operator
 #
-
+ORDER_ACCEPTANCE=$(cat <<EOF
+{
+  "order-digest": "sha256:$BASE64_SHA256",
+  "retailer-order-reference": "1234567",
+  "retailer": {
+    "href": "http://www.operator.com/entities/retailer"
+  },
+  "order-processing-result": "accepted",
+  "nominal-price": {
+    "http://www.operator.com/gaming-products/foo": {
+      "currency": "EUR",
+      "amount": "12.50"
+    },
+    "http://www.operator.com/gaming-products/bar": {
+       "currency": "EUR",
+       "amount": "100.00"
+    },
+    "processing-fee": {
+      "currency": "EUR",
+      "amount": "1.00"
+    }
+  }
+}
+EOF
+)
+echo $ORDER_ACCEPTANCE > orders/$BASE64_SHA256_URL_SAFE/order.result
+	
 #
 # sign the operator acceptance document
 #
+OPERATOR_SIG_BASE64=$(openssl dgst -sha256 -binary -sign operator/operator-private_key.pem orders/$BASE64_SHA256_URL_SAFE/order.result | base64 -w 0)
+echo "algorithm=rsa-sha256" > orders/$BASE64_SHA256_URL_SAFE/order.result.signature
+echo "keyId=operator1" >> orders/$BASE64_SHA256_URL_SAFE/order.result.signature
+echo "signature=$OPERATOR_SIG_BASE64" >> orders/$BASE64_SHA256_URL_SAFE/order.result.signature
 
 #
 # produce timestamp over the operator signature
