@@ -124,7 +124,7 @@ For example:
 
 {% highlight json%}
 {
-  "order-digest": "SHA256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "SHA-256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
@@ -152,7 +152,7 @@ For example:
 
 {% highlight json%}
 {
-  "order-digest": "sha256:5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "SHA-256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
@@ -177,7 +177,7 @@ If the order was `rejected` or `failed` then the resource MAY also include a des
 For example:
 {% highlight json%}
 {
-  "order-digest": "sha256:5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "SHA-256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
@@ -192,7 +192,7 @@ For example:
 }
 {% endhighlight %}
 
-If the state is terminal (`accepted`, `rejected`, or `failed`) then the HTTP Entity Body will also be digitally signed by the [Operator](../concepts/operator) as per [Content Signature](../rfcs/content-signature). Additionally, the timestamp obtained by the operator over its digital signature will be published as per [Content Signature Timestamp](../rfcs/content-signature-timestamp).
+If the state is `accepted` then the HTTP Entity Body MUST also be digitally signed by the [Operator](../concepts/operator) as per [Content Signature](../rfcs/content-signature). Additionally, the timestamp obtained by the operator over its digital signature will be published as per [Content Signature Timestamp](../rfcs/content-signature-timestamp). If the state is otherwise terminal (`rejected` or `failed`) then the HTTP Entity Body MAY also be digitally signed and the signature timestamped.
 
 ## Listing Order Links
 
