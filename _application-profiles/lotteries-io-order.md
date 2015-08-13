@@ -124,7 +124,7 @@ For example:
 
 {% highlight json%}
 {
-  "order-digest": "SHA-256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "sha256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
@@ -152,7 +152,7 @@ For example:
 
 {% highlight json%}
 {
-  "order-digest": "SHA-256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "sha256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
@@ -177,7 +177,7 @@ If the order was `rejected` or `failed` then the resource MAY also include a des
 For example:
 {% highlight json%}
 {
-  "order-digest": "SHA-256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "sha256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
