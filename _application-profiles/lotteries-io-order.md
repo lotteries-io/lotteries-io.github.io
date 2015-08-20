@@ -97,9 +97,9 @@ On receipt of the [Order](../concepts/order) document, the [Operator](../concept
 
 If these fail, then a `400 Bad Request` will be returned along with an appropriate HTTP [Problem Details](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) document that supplies details of the issue encountered.
 
-If these pass, and there is not already a representation of the order present at the operator (as identified by the body digest), then a `201 Created` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state) resource.
+If these pass, and there is not already a representation of the order present at the operator (as identified by the body digest), then a `201 Created` is returned, the URL in the `Location` header being the [Operator Order Resource](#operator-order-resource) resource.
 
-If there is already a representation of the order at the operator, then  a `303 See Other` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state).
+If there is already a representation of the order at the operator, then  a `303 See Other` is returned, the URL in the `Location` header being the [Operator Order Resource](#operator-order-resource).
 
 ## Operator Order Resource
 
