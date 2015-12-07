@@ -5,6 +5,6 @@ title: Gaming Product Operator
 
 # Gaming Product Operator
 
-Links to a resource describing the entity that is functioning as [Operator](../concepts/operator) of a Gaming Product(../concepts/gaming-product).
+Links to a resource describing the entity that is functioning as the [Operator](../concepts/operator) of a [Gaming Product](../concepts/gaming-product).
 
-This entity may or may not be the same as the entity that is functioning as [Draw Organiser](../concepts/draw-organiser) of the [Draw Series](../concepts/draw-series) that the product is based around.
+This entity may or may not be the same as the entity that is functioning as [Draw Organiser](../concepts/draw-organiser) of the [Draw Series](../concepts/draw-series) that the [Gaming Product](../concepts/gaming-product) is based around.
