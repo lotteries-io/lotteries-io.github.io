@@ -3,7 +3,7 @@ layout: page
 title: Winning Scheme
 ---
 
-#Winning Scheme
+# Winning Scheme
 
 A winning scheme defines the rules that are applied to a [Participation Pool](participation-pool) by a [Gaming Product](gaming-product) to a [Bet](bet).
 
