@@ -5,9 +5,9 @@ header: true
 ---
 # Domain Overview
 
-The work we have done so far can be divided into two key, related areas:
+The work we have done so far can be divided into three related areas:
 
-1. Domain Modelling
+1. Domain Modelling / Ontology
   1.1 [Concepts](/domain/concepts-overview)
   1.2. [Properties](/domain/properties-overview)
 2. (Rest) Web Application Definitions
