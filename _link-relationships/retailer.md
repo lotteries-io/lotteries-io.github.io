@@ -2,6 +2,6 @@
 layout: page
 title: Retailer
 ---
-# Retailer Link Relationship
+# Retailer
 
 Link to a resource describing a [Retailer](../concepts/retailer).
