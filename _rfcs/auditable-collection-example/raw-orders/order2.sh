@@ -1,3 +1,5 @@
+#!/bin/bash
+ORDER=$(cat <<EOF
 {
   "metadata": {
     "retailer": {
@@ -5,7 +7,7 @@
     },
     "retail-customer": "2494363",
     "retailer-order-reference": "23459156743",
-    "creation-date": "2015-06-07T09:37:21Z"
+    "creation-date": "${NOW}"
   },
   "gaming-product-orders": {
     "http://www.operator.com/gaming-products/foo": {
@@ -16,7 +18,7 @@
         }
       ],
       "participation-pools": {
-        "first": "2015-06-08",
+        "first": "${IN_TWO_DAYS}",
         "draw-count": 2
       }
    },
@@ -28,9 +30,11 @@
      ],
      "participation-pools": {
        "cycles": ["AM"],
-       "first-draw": "2015-06-10",
+       "first-draw": "${IN_THREE_DAYS}",
        "draw-count": 4
      }
    }
   }
 }
+EOF
+)

@@ -4,3 +4,7 @@ retailer/
 orders/
 tsa/
 tmp/
+downloadable-collection/
+raw-orders/*.json
+ts.serial
+downloadable-collection.zip

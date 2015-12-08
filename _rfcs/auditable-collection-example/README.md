@@ -9,11 +9,18 @@ a fictional operator (http://www.operator.com) for some equally fictional gaming
 products (http://www.operator.com/gaming-products/foo and
 http://www.operator.com/gaming-products/bar).
 
-These are represented by the files `order1.json` and `order2.json`.
+These are generated from the shell templates in `raw-orders`.
 
 ## Preconditions
 
-The examples here run using `openssl` and `bash` and have been tested on Fedora 22 Linux.
+You must have installed `jq` to enable working with JSON documents on the shell.
+
+The examples here run using `openssl` and `bash` and have been tested on Mac OS X El Capitan. On Mac OS X you will need to
+ensure that you have an up to date version of `openssl` (in order to generate timestamps), for example by using:
+```
+brew install openssl
+brew link openssl --force
+```
 
 ## Getting Started
 
@@ -31,10 +38,14 @@ Run:
 
 This generates keys, a self-signed certificate and the most basic file structure needed by openssl.
 
-### Keys and Certificates for Retailer and Operator
+You can clear this up with the script `reset-ca.sh`.
+
+### Keys and Certificates for Retailer and Operator and Timestamp Authority
 
 We now set up the private/public key pairs for our two organisations, *retailer*
 and *operator*. We generate certificate signing requests for both and sign these using the CA we just up.
+
+We also create a Timestamping Authority, *tsa*.
 
 Run:
 
@@ -42,11 +53,23 @@ Run:
 ./generateKeysAndCerts.sh
 ```
 
-The requisite artefacts are set up in the directories `retailer` and `operator`.
+The requisite artefacts are set up in the directories `retailer`, `operator` and `tsa`.
 
-First, lets compute the sha256 hash of each using openssl and adjust the output
-to be URL safe - in other words recode '+' to '-' and '/' to '_' as in
-"modified bas64 for URL" (see http://en.wikipedia.org/wiki/Base64)
+### Generating a downloadable collection
 
-openssl dgst -sha256 -binary order1.json | base64 > example1.json.sha256
-openssl dgst -sha256 -binary order2.json | base64 > example2.json.sha256
+With the above pre-conditions in place, we can now generate a downloadable, auditable collection in the correct format.
+
+Run:
+```
+createCollection.sh
+```
+
+This runs through the template files in `raw-orders`, generates the final JSON documents with recent timestamps, signs them in the name of the retailer, draws up an order acceptance document, signs that and then timestamps the operator signature.
+
+At this point, we don't supply a `metadata.json` file.
+
+The result is a file: `downloadable-collection.zip` in the appropriate format.
+
+### Validating a downloadable collection
+
+TODO
