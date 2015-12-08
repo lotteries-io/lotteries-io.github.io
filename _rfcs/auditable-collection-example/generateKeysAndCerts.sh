@@ -8,7 +8,7 @@
 # just to keep things simple, for a relatively generour definition of simple.
 #
 
-for entity in "retailer" "operator"; do
+for entity in "retailer" "operator" "tsa"; do
   rm -rf $entity-*
   rm -rf $entity
   mkdir $entity
@@ -18,11 +18,21 @@ for entity in "retailer" "operator"; do
   openssl req -new -sha256 -key $entity/$entity-private_key.pem \
     -out $entity/$entity-csr.pem \
     -subj "/C=GB/ST=London/L=London/O=$entity/OU=IT Department/CN=$entity.com"
-  # openssl req -noout -text -in $entity-csr.pem
 
-  openssl ca -in $entity/$entity-csr.pem -out $entity/$entity-cert.pem \
-   -outdir ca/certs -days 3650 \
-   -keyfile ca/private/ca-private_key.pem  -cert ca/certs/ca-cert.pem \
-   -config ./openssl.cnf \
-   -batch
+  if [ $entity = "tsa" ]
+    then
+      openssl ca -in $entity/$entity-csr.pem -out $entity/$entity-cert.pem \
+       -outdir ca/certs -days 3650 \
+       -keyfile ca/private/ca-private_key.pem  -cert ca/certs/ca-cert.pem \
+       -config ./openssl.cnf \
+       -extensions tsa \
+       -extfile tsa.extensions \
+       -batch
+    else
+      openssl ca -in $entity/$entity-csr.pem -out $entity/$entity-cert.pem \
+       -outdir ca/certs -days 3650 \
+       -keyfile ca/private/ca-private_key.pem  -cert ca/certs/ca-cert.pem \
+       -config ./openssl.cnf \
+       -batch
+  fi
 done

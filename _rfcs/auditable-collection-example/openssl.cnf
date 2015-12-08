@@ -16,16 +16,6 @@ nameopt					= default_ca
 certopt					= default_ca
 policy					= policy_match
 
-
-[ policy_match ]
-countryName				= supplied
-stateOrProvinceName			= supplied
-organizationName			= supplied
-organizationalUnitName			= optional
-commonName				= supplied
-emailAddress				= optional
-
-
 [ tsa ]
 
 default_tsa = tsa_config1
@@ -35,3 +25,10 @@ default_tsa = tsa_config1
 serial = ts.serial
 digests = sha256
 default_policy = 1.2.3.4.1
+[ policy_match ]
+countryName				= supplied
+stateOrProvinceName			= supplied
+organizationName			= supplied
+organizationalUnitName			= optional
+commonName				= supplied
+emailAddress				= optional
