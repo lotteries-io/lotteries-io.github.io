@@ -98,9 +98,9 @@ On receipt of the [Order](../concepts/order) document, the [Operator](../concept
 
 If these fail, then a `400 Bad Request` will be returned along with an appropriate HTTP [Problem Details](https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00) document that supplies details of the issue encountered.
 
-If these pass, and there is not already a representation of the order present at the operator (as identified by the body digest), then a `201 Created` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state) resource.
+If these pass, and there is not already a representation of the order present at the operator (as identified by the body digest), then a `201 Created` is returned, the URL in the `Location` header being the [Operator Order Resource](#operator-order-resource) resource.
 
-If there is already a representation of the order at the operator, then  a `303 See Other` is returned, the URL in the `Location` header being the [Order Processing State](../concepts/order-processing-state).
+If there is already a representation of the order at the operator, then  a `303 See Other` is returned, the URL in the `Location` header being the [Operator Order Resource](#operator-order-resource).
 
 ## Operator Order Resource
 
@@ -125,7 +125,7 @@ For example:
 
 {% highlight json%}
 {
-  "order-digest": "SHA256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "sha256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
@@ -144,17 +144,22 @@ At least the following properties are provided:
 If the order was `accepted`, then the resource will also include:
 
 * [nominal-price](../properties/nominal-price)
+ 
+If the order was either `accepted`, `rejected` or `failed` then the resource will also include the following property:
+
+* [creation-time](../properties/creation-time). In this case the property means the time when the operator created the document.
 
 For example:
 
 {% highlight json%}
 {
-  "order-digest": "sha256:5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "sha256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
   },
   "order-processing-result": "accepted",
+  "creation-time": "2015-02-23T05:12:17Z",
   "nominal-price": {
     "http://www.operator.com/gaming-products/product1": {
       "currency": "EUR",
@@ -173,12 +178,13 @@ If the order was `rejected` or `failed` then the resource MAY also include a des
 For example:
 {% highlight json%}
 {
-  "order-digest": "sha256:5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
+  "order-digest": "sha256=5d5b09f6dcb2d53a5fffc60c4ac0d55fabdf556069d6631545f42aa6e3500f2e",
   "retailer-order-reference": "1234567",
   "retailer": {
     "href": "http://www.operator.com/entities/retailer"
   },
   "order-processing-result": "rejected",
+  "creation-time": "2015-02-23T05:12:17Z",
   "problem-details": {
     "type": "http://www.lotteries.io/problem-types/invalid-order",
     "title": "invalid order",
@@ -187,7 +193,7 @@ For example:
 }
 {% endhighlight %}
 
-If the state is terminal (`accepted`, `rejected`, or `failed`) then the HTTP Entity Body will also be digitally signed by the [Operator](../concepts/operator) as per [Content Signature](../rfcs/content-signature). Additionally, the timestamp obtained by the operator over its digital signature will be published as per [Content Signature Timestamp](../rfcs/content-signature-timestamp).
+If the state is `accepted` then the HTTP Entity Body MUST also be digitally signed by the [Operator](../concepts/operator) as per [Content Signature](../rfcs/content-signature). Additionally, the timestamp obtained by the operator over its digital signature will be published as per [Content Signature Timestamp](../rfcs/content-signature-timestamp). If the state is otherwise terminal (`rejected` or `failed`) then the HTTP Entity Body MAY also be digitally signed and the signature timestamped.
 
 ## Listing Order Links
 

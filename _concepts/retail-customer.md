@@ -3,7 +3,7 @@ layout: page
 title: Retail Customer
 ---
 
-#Retail Customer
+# Retail Customer
 
 An individual person (or reseller) in a business relationship with the [Retailer](retailer). 
 
