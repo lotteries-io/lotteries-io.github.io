@@ -1,4 +1,9 @@
-# Downloadable Auditable Lottery Order Collections
+---
+layout: page
+title: Downloadable, Auditable Lottery Order Collections
+---
+
+# Downloadable, Auditable Lottery Order Collections
 
 ## Introduction
 
