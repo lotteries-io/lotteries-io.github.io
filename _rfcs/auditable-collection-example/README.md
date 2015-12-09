@@ -72,4 +72,10 @@ The result is a file: `downloadable-collection.zip` in the appropriate format.
 
 ### Validating a downloadable collection
 
-TODO
+The generated collection can be validated with:
+
+```
+validateCollection.sh
+```
+
+This script performs the basic integrity checks described in the RFC and could be used as the basis of a generic validation script in bash.
