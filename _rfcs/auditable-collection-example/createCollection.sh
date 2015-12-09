@@ -1,11 +1,5 @@
 #!/bin/bash
 
-
-function sha256Base64  {
-  # $1 | tr '+' '-' | tr '/' '_'
-  echo $(openssl dgst -sha256 -binary $1 | base64 -w 0)
-}
-
 function sha256UrlSafe  {
   # $1 | tr '+' '-' | tr '/' '_'
   echo $(openssl dgst -sha256 -binary $1 | base64 | tr '+' '-' | tr '/' '_')
@@ -70,8 +64,12 @@ EOF
 # operator signs the order.result acceptance document
 #
 function writeOperatorSignature {
-  OPERATOR_SIG_BASE64=$(openssl dgst -sha256 -binary -sign operator/operator-private_key.pem downloadable-collection/$1/order.result | base64)
+  openssl dgst -sha256 -binary \
+    -sign operator/operator-private_key.pem \
+    -out downloadable-collection/$1/order.result.signature.raw \
+    downloadable-collection/$1/order.result
 
+  OPERATOR_SIG_BASE64=$(cat downloadable-collection/$1/order.result.signature.raw | base64)
   OPERATOR_SIGN_JSON=$(cat <<EOF
 {
   "algorithm": "rsa-sha256",
@@ -84,16 +82,28 @@ EOF
 }
 
 function timestampOperatorSignature {
-  RAW_OPERATOR_SIG=$(jq '.signature' -r downloadable-collection/$1/order.result.signature | base64 --decode)
-  echo $RAW_OPERATOR_SIG | openssl ts -query -sha256 -cert -out downloadable-collection/$1/operator.signature.tsq
+  openssl ts -query -sha256 -cert \
+    -data downloadable-collection/$1/order.result.signature.raw \
+    -out downloadable-collection/$1/order.result.signature.tsq
+
   openssl ts -config openssl.cnf -reply \
-    -queryfile downloadable-collection/$1/operator.signature.tsq \
+    -queryfile downloadable-collection/$1/order.result.signature.tsq \
     -signer tsa/tsa-cert.pem \
     -inkey tsa/tsa-private_key.pem \
     -chain ca/certs/ca-cert.pem \
-    | base64 > downloadable-collection/$1/order.result.signature.timestamp
+    -out downloadable-collection/$1/order.result.signature.timestamp.raw
 
-  rm downloadable-collection/$1/operator.signature.tsq
+  openssl ts -verify \
+    -queryfile downloadable-collection/$1/order.result.signature.tsq \
+    -in downloadable-collection/$1/order.result.signature.timestamp.raw \
+    -CAfile ca/certs/ca-cert.pem
+
+  cat downloadable-collection/$1/order.result.signature.timestamp.raw | base64 > downloadable-collection/$1/order.result.signature.timestamp
+
+  #remove unnecessary working arefacts
+  rm downloadable-collection/$1/order.result.signature.tsq
+  rm downloadable-collection/$1/order.result.signature.raw
+  rm downloadable-collection/$1/order.result.signature.timestamp.raw
 }
 
 function before {
@@ -110,6 +120,10 @@ function before {
   # clean up any template output from raw-orders
   #
   rm -rf raw-orders/*.json
+
+  if [ -e downloadable-collection.zip ]; then
+    rm downloadable-collection.zip
+  fi
 }
 
 #

@@ -35,4 +35,5 @@ for entity in "retailer" "operator" "tsa"; do
        -config ./openssl.cnf \
        -batch
   fi
+  openssl x509 -pubkey -noout -in $entity/$entity-cert.pem > $entity/$entity-public_key.pem
 done
