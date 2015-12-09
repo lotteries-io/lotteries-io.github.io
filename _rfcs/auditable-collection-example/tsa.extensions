@@ -1,0 +1,6 @@
+[tsa]
+basicConstraints=CA:FALSE
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+keyUsage = nonRepudiation, digitalSignature
+extendedKeyUsage=critical,timeStamping

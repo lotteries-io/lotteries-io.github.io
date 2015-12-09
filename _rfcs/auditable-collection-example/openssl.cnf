@@ -1,0 +1,34 @@
+dir					= ca
+
+[ ca ]
+default_ca				= CA_default
+
+[ CA_default ]
+serial					= $dir/certs/serial
+database				= $dir/index.txt
+new_certs_dir				= $dir/certs
+certificate				= $dir/ca-cert.pem
+private_key				= $dir/private/ca-private_key.pem
+default_days				= 365
+default_md				= sha256
+preserve				= no
+nameopt					= default_ca
+certopt					= default_ca
+policy					= policy_match
+
+[ tsa ]
+
+default_tsa = tsa_config1
+
+[ tsa_config1 ]
+
+serial = ts.serial
+digests = sha256
+default_policy = 1.2.3.4.1
+[ policy_match ]
+countryName				= supplied
+stateOrProvinceName			= supplied
+organizationName			= supplied
+organizationalUnitName			= optional
+commonName				= supplied
+emailAddress				= optional

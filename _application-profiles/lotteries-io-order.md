@@ -37,7 +37,8 @@ For example:
     "retail-customer": "47890",
     "retailer-order-reference": "1234",
     "creation-date": "2015-02-18T04:57:56Z"
-  },
+  }
+}
 {% endhighlight %}
 
 ### Gaming Product Order Block
