@@ -10,7 +10,7 @@ function sha256UrlSafe  {
 #
 function createOrderSubdirectoryWithOrder {
   mkdir downloadable-collection/$1
-  cp $2 downloadable-collection/$1/order.json
+  cp $2 downloadable-collection/$1/order
 }
 
 #
@@ -19,8 +19,8 @@ function createOrderSubdirectoryWithOrder {
 function createOrderFromTemplate {
   source $1
   baseName=$(basename `pwd`/raw-orders/$1 .sh)
-  orderFile=raw-orders/$baseName.json
-  echo $ORDER > $orderFile
+  orderJson=raw-orders/$baseName.json
+  echo $ORDER > $orderJson
 }
 
 
@@ -28,7 +28,7 @@ function createOrderFromTemplate {
 # computes retailer signature over raw order bytes
 #
 function writeRetailerSignature {
-  RETAILER_SIG_BASE64=$(openssl dgst -sha256 -binary -sign retailer/retailer-private_key.pem downloadable-collection/$1/order.json | base64)
+  RETAILER_SIG_BASE64=$(openssl dgst -sha256 -binary -sign retailer/retailer-private_key.pem downloadable-collection/$1/order | base64)
 
   RETAILER_SIGN_JSON=$(cat <<EOF
 {
@@ -45,7 +45,7 @@ EOF
 # writes operator acceptance document for order
 #
 function writeOperatorAcceptance {
-  RETAILER_ORDER_REFERENCE=$(jq '.metadata."retailer-order-reference"' -r downloadable-collection/$1/order.json)
+  RETAILER_ORDER_REFERENCE=$(jq '.metadata."retailer-order-reference"' -r downloadable-collection/$1/order)
   ORDER_ACCEPTANCE=$(cat <<EOF
 {
   "order-digest": "sha256:$1",
@@ -144,8 +144,8 @@ before
 
 for order in $(ls raw-orders/*.sh); do
   createOrderFromTemplate $order
-  orderSha=`sha256UrlSafe $orderFile`
-  createOrderSubdirectoryWithOrder $orderSha $orderFile
+  orderSha=`sha256UrlSafe $orderJson`
+  createOrderSubdirectoryWithOrder $orderSha $orderJson
   writeRetailerSignature $orderSha
   writeOperatorAcceptance $orderSha
   writeOperatorSignature $orderSha
