@@ -49,13 +49,13 @@ The data for each order is placed in a directory named according to the URL-safe
 
 Within this directory the files with the following names and semantics are expected to be present:
 
-* `order.json` (the raw order data as submitted by the [Retailer](../concepts/retailer)).
-* `order.signature` (the retailer signature over the order). A properties file with three string properties corresponding to those defined for [Content-Signature](content-signature:)
+* `order` (the raw order data in JSON format as submitted by the [Retailer](../concepts/retailer)).
+* `order.signature` (the retailer signature over the order). A JSON file with a single object with three string properties corresponding to those defined for [Content-Signature](content-signature:)
    * `algorithm`. The standardised (as per [Content-Signature](content-signature)) algorithm name for the signature algorithm used.
    * `keyId`. The key alias for the key pair used to produce the signature.
    * `signature`. The base64 encoded signature.
-* `order.result` (the terminal [order processing state](../concepts/order-processing-state) document from the operator in JSON format. This includes an `order-digest` field over the `order.json` which allows the processing result to be correlated with the input `order`).
-* `order.result.signature`. A properties file with the same three string properties as for the retailer signature.
+* `order.result` (the terminal [order processing state](../concepts/order-processing-state) document from the operator in JSON format. This includes an `order-digest` field over the `order` document which allows the processing result to be correlated with the input `order`).
+* `order.result.signature`. A JSON file with a single object with the same three string properties as for the retailer signature.
   * `algorithm`.
   * `keyId`. The key alias for the key pair used to produce the signature.
   * `signature`. The base64 encoded signature.

@@ -17,7 +17,7 @@ function sha256UrlSafe  {
 
 function compareOrderWithHashInDirectory {
   # compute hash of order.json and see if matches the directory hash...
-  orderSha=$(sha256UrlSafe validation/downloadable-collection/$1/order.json)
+  orderSha=$(sha256UrlSafe validation/downloadable-collection/$1/order)
   if [ $orderSha = $1 ]
     then
       echo "order hash matches directory name... OK"
@@ -32,7 +32,7 @@ function checkRetailerSignature {
   openssl dgst -sha256 \
     -verify retailer/retailer-public_key.pem \
     -signature validation/downloadable-collection/$1/order.signature.raw \
-    validation/downloadable-collection/$1/order.json
+    validation/downloadable-collection/$1/order
   echo "validated retailer signature..."
 }
 
