@@ -12,3 +12,4 @@ Common draw further properties include:
 - jackpot. Amount available for payout in the top winning class.
 - total takings
 
+The view is a selection over the entire [Gaming Product State](gaming-product-state).
